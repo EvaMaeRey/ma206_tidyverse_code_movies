@@ -1,6 +1,6 @@
 ---
-title: "Ex. 4.1: Additional ggplot2 figures"
-subtitle: "Column Chart"
+title: "Ex. 4.1: Column Chart"
+subtitle: ""
 author: ""
 output:
   xaringan::moon_reader:

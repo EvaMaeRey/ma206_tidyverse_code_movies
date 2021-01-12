@@ -1,8 +1,8 @@
 employed_under_150K %>%
   ggplot() + 
   aes(x = Earnings) +
-  aes(fill = Sex) + 
   geom_histogram(position = "dodge") +
+  aes(fill = Sex) + 
   labs(x = "Earnings (USD)") +
   labs(y = "Count") + 
   labs(title = "Histogram of Earnings by Sex") +

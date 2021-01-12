@@ -7,13 +7,11 @@
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/hygge.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/ninjutsu.css" rel="stylesheet" />
-    <link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-    <script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
     <script src="libs/clipboard-2.0.6/clipboard.min.js"></script>
     <link href="libs/shareon-1.4.1/shareon.min.css" rel="stylesheet" />
     <script src="libs/shareon-1.4.1/shareon.min.js"></script>
-    <link href="libs/xaringanExtra-shareagain-0.2.4/shareagain.css" rel="stylesheet" />
-    <script src="libs/xaringanExtra-shareagain-0.2.4/shareagain.js"></script>
+    <link href="libs/xaringanExtra-shareagain-0.2.1/shareagain.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-shareagain-0.2.1/shareagain.js"></script>
   </head>
   <body>
     <textarea id="source">
@@ -48,21 +46,20 @@ count: false
 .panel2-the_chunk-auto[
 
 ```
-# A tibble: 80,635 x 10
-   Education Sex   Occupation   Age Earnings MaritalStatus Race  FamilySize
-   &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;      &lt;dbl&gt;
- 1 Less tha~ F     39: Retai~    20     8000 Never Married White          5
- 2 Less tha~ M     8: Comput~    16     4000 Never Married White          5
- 3 Less tha~ M     32: Chefs~    27    17350 Never Married Black          2
- 4 Less tha~ M     33: Food ~    24    12000 Never Married Hisp~          2
- 5 Bachelors M     31: Anima~    62    25480 Never Married White          1
- 6 Bachelors F     41: Farmi~    53     6000 Married       White          6
- 7 Bachelors M     8: Comput~    52    70200 Married       Asian          6
- 8 Less tha~ F     41: Farmi~    16    10520 Never Married Asian          6
- 9 Some Col~ F     30: Publi~    31    46000 Married       White          4
-10 Less tha~ M     48: Insta~    37    40000 Never Married White          1
-# ... with 80,625 more rows, and 2 more variables: FamilyMakeup &lt;chr&gt;,
-#   Age_squared &lt;dbl&gt;
+# A tibble: 80,635 x 5
+   Earnings Earnings_per_member Sex     Age Education              
+      &lt;dbl&gt;               &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;                  
+ 1     8000               1600  F        20 Less than HS           
+ 2     4000                800  M        16 Less than HS           
+ 3    17350               8675  M        27 Less than HS           
+ 4    12000               6000  M        24 Less than HS           
+ 5    25480              25480  M        62 Bachelors              
+ 6     6000               1000  F        53 Bachelors              
+ 7    70200              11700  M        52 Bachelors              
+ 8    10520               1753. F        16 Less than HS           
+ 9    46000              11500  F        31 Some College/Associates
+10    40000              40000  M        37 Less than HS           
+# … with 80,625 more rows
 ```
 ]
 
@@ -109,7 +106,7 @@ count: false
 employed_under_150K %&gt;%
   ggplot() +
   aes(x = Earnings) +
-* aes(fill = Sex)
+* geom_histogram(position = "dodge")
 ```
 ]
  
@@ -127,8 +124,8 @@ count: false
 employed_under_150K %&gt;%
   ggplot() +
   aes(x = Earnings) +
-  aes(fill = Sex) +
-* geom_histogram(position = "dodge")
+  geom_histogram(position = "dodge") +
+* aes(fill = Sex)
 ```
 ]
  
@@ -146,8 +143,8 @@ count: false
 employed_under_150K %&gt;%
   ggplot() +
   aes(x = Earnings) +
-  aes(fill = Sex) +
   geom_histogram(position = "dodge") +
+  aes(fill = Sex) +
 * labs(x = "Earnings (USD)")
 ```
 ]
@@ -166,8 +163,8 @@ count: false
 employed_under_150K %&gt;%
   ggplot() +
   aes(x = Earnings) +
-  aes(fill = Sex) +
   geom_histogram(position = "dodge") +
+  aes(fill = Sex) +
   labs(x = "Earnings (USD)") +
 * labs(y = "Count")
 ```
@@ -187,8 +184,8 @@ count: false
 employed_under_150K %&gt;%
   ggplot() +
   aes(x = Earnings) +
-  aes(fill = Sex) +
   geom_histogram(position = "dodge") +
+  aes(fill = Sex) +
   labs(x = "Earnings (USD)") +
   labs(y = "Count") +
 * labs(title = "Histogram of Earnings by Sex")
@@ -209,8 +206,8 @@ count: false
 employed_under_150K %&gt;%
   ggplot() +
   aes(x = Earnings) +
-  aes(fill = Sex) +
   geom_histogram(position = "dodge") +
+  aes(fill = Sex) +
   labs(x = "Earnings (USD)") +
   labs(y = "Count") +
   labs(title = "Histogram of Earnings by Sex") +

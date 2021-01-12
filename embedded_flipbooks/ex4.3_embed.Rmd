@@ -1,6 +1,6 @@
 ---
-title: "Ex. 4.3: Additional ggplot2 figures"
-subtitle: "Dot Plot"
+title: "Ex. 4.3: Dot Plot"
+subtitle: ""
 author: ""
 output:
   xaringan::moon_reader:
@@ -31,6 +31,7 @@ xaringanExtra::use_share_again()
 
 
 ```{r the_chunk, include = F}
+library(gapminder)
 gapminder %>%  
   filter(year == 2002) %>%  
   ggplot() +  
@@ -42,7 +43,9 @@ gapminder %>%
   labs(x = "Life Expectancy (Years)") +
   labs(y = "Count") + 
   labs(title = "National Life Expectancy by Region",
-       subtitle = "Data from 2002")
+       subtitle = "Data from 2002") +
+  facet_wrap(facets = vars(continent)) +
+  theme(legend.position = "none")
 ```
 
 `r chunk_reveal(chunk_name = "the_chunk", break_type = "auto", ...)`

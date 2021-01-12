@@ -7,13 +7,11 @@
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/hygge.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/ninjutsu.css" rel="stylesheet" />
-    <link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-    <script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
     <script src="libs/clipboard-2.0.6/clipboard.min.js"></script>
     <link href="libs/shareon-1.4.1/shareon.min.css" rel="stylesheet" />
     <script src="libs/shareon-1.4.1/shareon.min.js"></script>
-    <link href="libs/xaringanExtra-shareagain-0.2.4/shareagain.css" rel="stylesheet" />
-    <script src="libs/xaringanExtra-shareagain-0.2.4/shareagain.js"></script>
+    <link href="libs/xaringanExtra-shareagain-0.2.1/shareagain.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-shareagain-0.2.1/shareagain.js"></script>
   </head>
   <body>
     <textarea id="source">
@@ -41,66 +39,27 @@ count: false
 .panel1-the_chunk-auto[
 
 ```r
-*employed_data = wage_data
-```
-]
- 
-.panel2-the_chunk-auto[
-
-]
-
----
-count: false
- 
-
-.panel1-the_chunk-auto[
-
-```r
-employed_data = wage_data %&gt;%
-## Here, we will filter out any entries of individuals
-## with no occupation:
-* filter(Occupation!="53: Never Worked" &amp; Earnings &gt; 0)
-```
-]
- 
-.panel2-the_chunk-auto[
-
-]
-
----
-count: false
- 
-
-.panel1-the_chunk-auto[
-
-```r
-employed_data = wage_data %&gt;%
-## Here, we will filter out any entries of individuals
-## with no occupation:
-  filter(Occupation!="53: Never Worked" &amp; Earnings &gt; 0)
-
-## Producing this:
-*employed_data
+*read_csv("wage_data.csv")
 ```
 ]
  
 .panel2-the_chunk-auto[
 
 ```
-# A tibble: 84,631 x 10
+# A tibble: 180,084 x 10
    Education Sex   Occupation   Age Earnings MaritalStatus Race  FamilySize
    &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;      &lt;dbl&gt;
- 1 Bachelors M     40: Offic~    49   220000 Married       White          5
- 2 Less tha~ F     39: Retai~    20     8000 Never Married White          5
- 3 Less tha~ M     8: Comput~    16     4000 Never Married White          5
- 4 Less tha~ M     32: Chefs~    27    17350 Never Married Black          2
- 5 Less tha~ M     33: Food ~    24    12000 Never Married Hisp~          2
- 6 Bachelors M     31: Anima~    62    25480 Never Married White          1
- 7 Bachelors F     41: Farmi~    53     6000 Married       White          6
- 8 Bachelors M     8: Comput~    52    70200 Married       Asian          6
- 9 Less tha~ F     41: Farmi~    16    10520 Never Married Asian          6
-10 Some Col~ F     30: Publi~    31    46000 Married       White          4
-# ... with 84,621 more rows, and 2 more variables: FamilyMakeup &lt;chr&gt;,
+ 1 Bachelors M     40: Offic…    49   220000 Married       White          5
+ 2 Some Col… F     53: Never…    51        0 Married       White          5
+ 3 Less tha… F     39: Retai…    20     8000 Never Married White          5
+ 4 Less tha… M     8: Comput…    16     4000 Never Married White          5
+ 5 Less tha… F     53: Never…    80        0 Widowed       White          5
+ 6 Less tha… M     32: Chefs…    27    17350 Never Married Black          2
+ 7 Less tha… M     33: Food …    24    12000 Never Married Hisp…          2
+ 8 Bachelors M     31: Anima…    62    25480 Never Married White          1
+ 9 Less tha… F     53: Never…    70        0 Widowed       White          1
+10 Bachelors F     41: Farmi…    53     6000 Married       White          6
+# … with 180,074 more rows, and 2 more variables: FamilyMakeup &lt;chr&gt;,
 #   Age_squared &lt;dbl&gt;
 ```
 ]
@@ -112,16 +71,101 @@ count: false
 .panel1-the_chunk-auto[
 
 ```r
-employed_data = wage_data %&gt;%
-## Here, we will filter out any entries of individuals
-## with no occupation:
-  filter(Occupation!="53: Never Worked" &amp; Earnings &gt; 0)
+read_csv("wage_data.csv") -&gt;
+* wage_data
+```
+]
+ 
+.panel2-the_chunk-auto[
 
-## Producing this:
-employed_data %&gt;%
-## Using the mutate command, we will create a new
-## column displaying earnings per each family member:
-* mutate(Earnings_per_member=Earnings/FamilySize)
+]
+
+---
+count: false
+ 
+
+.panel1-the_chunk-auto[
+
+```r
+read_csv("wage_data.csv") -&gt;
+  wage_data
+
+*wage_data
+```
+]
+ 
+.panel2-the_chunk-auto[
+
+```
+# A tibble: 180,084 x 10
+   Education Sex   Occupation   Age Earnings MaritalStatus Race  FamilySize
+   &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;      &lt;dbl&gt;
+ 1 Bachelors M     40: Offic…    49   220000 Married       White          5
+ 2 Some Col… F     53: Never…    51        0 Married       White          5
+ 3 Less tha… F     39: Retai…    20     8000 Never Married White          5
+ 4 Less tha… M     8: Comput…    16     4000 Never Married White          5
+ 5 Less tha… F     53: Never…    80        0 Widowed       White          5
+ 6 Less tha… M     32: Chefs…    27    17350 Never Married Black          2
+ 7 Less tha… M     33: Food …    24    12000 Never Married Hisp…          2
+ 8 Bachelors M     31: Anima…    62    25480 Never Married White          1
+ 9 Less tha… F     53: Never…    70        0 Widowed       White          1
+10 Bachelors F     41: Farmi…    53     6000 Married       White          6
+# … with 180,074 more rows, and 2 more variables: FamilyMakeup &lt;chr&gt;,
+#   Age_squared &lt;dbl&gt;
+```
+]
+
+---
+count: false
+ 
+
+.panel1-the_chunk-auto[
+
+```r
+read_csv("wage_data.csv") -&gt;
+  wage_data
+
+wage_data %&gt;%
+* filter(Occupation != "53: Never Worked" &amp;
+*          Earnings &gt; 0)
+```
+]
+ 
+.panel2-the_chunk-auto[
+
+```
+# A tibble: 84,631 x 10
+   Education Sex   Occupation   Age Earnings MaritalStatus Race  FamilySize
+   &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;      &lt;dbl&gt;
+ 1 Bachelors M     40: Offic…    49   220000 Married       White          5
+ 2 Less tha… F     39: Retai…    20     8000 Never Married White          5
+ 3 Less tha… M     8: Comput…    16     4000 Never Married White          5
+ 4 Less tha… M     32: Chefs…    27    17350 Never Married Black          2
+ 5 Less tha… M     33: Food …    24    12000 Never Married Hisp…          2
+ 6 Bachelors M     31: Anima…    62    25480 Never Married White          1
+ 7 Bachelors F     41: Farmi…    53     6000 Married       White          6
+ 8 Bachelors M     8: Comput…    52    70200 Married       Asian          6
+ 9 Less tha… F     41: Farmi…    16    10520 Never Married Asian          6
+10 Some Col… F     30: Publi…    31    46000 Married       White          4
+# … with 84,621 more rows, and 2 more variables: FamilyMakeup &lt;chr&gt;,
+#   Age_squared &lt;dbl&gt;
+```
+]
+
+---
+count: false
+ 
+
+.panel1-the_chunk-auto[
+
+```r
+read_csv("wage_data.csv") -&gt;
+  wage_data
+
+wage_data %&gt;%
+  filter(Occupation != "53: Never Worked" &amp;
+           Earnings &gt; 0) %&gt;%
+* mutate(Earnings_per_member = Earnings / FamilySize)
 ```
 ]
  
@@ -131,17 +175,17 @@ employed_data %&gt;%
 # A tibble: 84,631 x 11
    Education Sex   Occupation   Age Earnings MaritalStatus Race  FamilySize
    &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;      &lt;dbl&gt;
- 1 Bachelors M     40: Offic~    49   220000 Married       White          5
- 2 Less tha~ F     39: Retai~    20     8000 Never Married White          5
- 3 Less tha~ M     8: Comput~    16     4000 Never Married White          5
- 4 Less tha~ M     32: Chefs~    27    17350 Never Married Black          2
- 5 Less tha~ M     33: Food ~    24    12000 Never Married Hisp~          2
- 6 Bachelors M     31: Anima~    62    25480 Never Married White          1
- 7 Bachelors F     41: Farmi~    53     6000 Married       White          6
- 8 Bachelors M     8: Comput~    52    70200 Married       Asian          6
- 9 Less tha~ F     41: Farmi~    16    10520 Never Married Asian          6
-10 Some Col~ F     30: Publi~    31    46000 Married       White          4
-# ... with 84,621 more rows, and 3 more variables: FamilyMakeup &lt;chr&gt;,
+ 1 Bachelors M     40: Offic…    49   220000 Married       White          5
+ 2 Less tha… F     39: Retai…    20     8000 Never Married White          5
+ 3 Less tha… M     8: Comput…    16     4000 Never Married White          5
+ 4 Less tha… M     32: Chefs…    27    17350 Never Married Black          2
+ 5 Less tha… M     33: Food …    24    12000 Never Married Hisp…          2
+ 6 Bachelors M     31: Anima…    62    25480 Never Married White          1
+ 7 Bachelors F     41: Farmi…    53     6000 Married       White          6
+ 8 Bachelors M     8: Comput…    52    70200 Married       Asian          6
+ 9 Less tha… F     41: Farmi…    16    10520 Never Married Asian          6
+10 Some Col… F     30: Publi…    31    46000 Married       White          4
+# … with 84,621 more rows, and 3 more variables: FamilyMakeup &lt;chr&gt;,
 #   Age_squared &lt;dbl&gt;, Earnings_per_member &lt;dbl&gt;
 ```
 ]
@@ -153,38 +197,34 @@ count: false
 .panel1-the_chunk-auto[
 
 ```r
-employed_data = wage_data %&gt;%
-## Here, we will filter out any entries of individuals
-## with no occupation:
-  filter(Occupation!="53: Never Worked" &amp; Earnings &gt; 0)
+read_csv("wage_data.csv") -&gt;
+  wage_data
 
-## Producing this:
-employed_data %&gt;%
-## Using the mutate command, we will create a new
-## column displaying earnings per each family member:
-  mutate(Earnings_per_member=Earnings/FamilySize) %&gt;%
-## And then select what we want to include:
-* select(Earnings, FamilySize, Earnings_per_member)
+wage_data %&gt;%
+  filter(Occupation != "53: Never Worked" &amp;
+           Earnings &gt; 0) %&gt;%
+  mutate(Earnings_per_member = Earnings / FamilySize) %&gt;%
+* select(Earnings, Earnings_per_member, Sex, Age, Education)
 ```
 ]
  
 .panel2-the_chunk-auto[
 
 ```
-# A tibble: 84,631 x 3
-   Earnings FamilySize Earnings_per_member
-      &lt;dbl&gt;      &lt;dbl&gt;               &lt;dbl&gt;
- 1   220000          5              44000 
- 2     8000          5               1600 
- 3     4000          5                800 
- 4    17350          2               8675 
- 5    12000          2               6000 
- 6    25480          1              25480 
- 7     6000          6               1000 
- 8    70200          6              11700 
- 9    10520          6               1753.
-10    46000          4              11500 
-# ... with 84,621 more rows
+# A tibble: 84,631 x 5
+   Earnings Earnings_per_member Sex     Age Education              
+      &lt;dbl&gt;               &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;                  
+ 1   220000              44000  M        49 Bachelors              
+ 2     8000               1600  F        20 Less than HS           
+ 3     4000                800  M        16 Less than HS           
+ 4    17350               8675  M        27 Less than HS           
+ 5    12000               6000  M        24 Less than HS           
+ 6    25480              25480  M        62 Bachelors              
+ 7     6000               1000  F        53 Bachelors              
+ 8    70200              11700  M        52 Bachelors              
+ 9    10520               1753. F        16 Less than HS           
+10    46000              11500  F        31 Some College/Associates
+# … with 84,621 more rows
 ```
 ]
 
@@ -195,42 +235,35 @@ count: false
 .panel1-the_chunk-auto[
 
 ```r
-employed_data = wage_data %&gt;%
-## Here, we will filter out any entries of individuals
-## with no occupation:
-  filter(Occupation!="53: Never Worked" &amp; Earnings &gt; 0)
+read_csv("wage_data.csv") -&gt;
+  wage_data
 
-## Producing this:
-employed_data %&gt;%
-## Using the mutate command, we will create a new
-## column displaying earnings per each family member:
-  mutate(Earnings_per_member=Earnings/FamilySize) %&gt;%
-## And then select what we want to include:
-  select(Earnings, FamilySize, Earnings_per_member)
-
-## We can also use the filter command to cut entries
-## reporting income over 150k, removing outliers:
-*employed_under_150K = employed_data
+wage_data %&gt;%
+  filter(Occupation != "53: Never Worked" &amp;
+           Earnings &gt; 0) %&gt;%
+  mutate(Earnings_per_member = Earnings / FamilySize) %&gt;%
+  select(Earnings, Earnings_per_member, Sex, Age, Education) %&gt;%
+* filter(Earnings&lt; 150000)
 ```
 ]
  
 .panel2-the_chunk-auto[
 
 ```
-# A tibble: 84,631 x 3
-   Earnings FamilySize Earnings_per_member
-      &lt;dbl&gt;      &lt;dbl&gt;               &lt;dbl&gt;
- 1   220000          5              44000 
- 2     8000          5               1600 
- 3     4000          5                800 
- 4    17350          2               8675 
- 5    12000          2               6000 
- 6    25480          1              25480 
- 7     6000          6               1000 
- 8    70200          6              11700 
- 9    10520          6               1753.
-10    46000          4              11500 
-# ... with 84,621 more rows
+# A tibble: 80,635 x 5
+   Earnings Earnings_per_member Sex     Age Education              
+      &lt;dbl&gt;               &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;                  
+ 1     8000               1600  F        20 Less than HS           
+ 2     4000                800  M        16 Less than HS           
+ 3    17350               8675  M        27 Less than HS           
+ 4    12000               6000  M        24 Less than HS           
+ 5    25480              25480  M        62 Bachelors              
+ 6     6000               1000  F        53 Bachelors              
+ 7    70200              11700  M        52 Bachelors              
+ 8    10520               1753. F        16 Less than HS           
+ 9    46000              11500  F        31 Some College/Associates
+10    40000              40000  M        37 Less than HS           
+# … with 80,625 more rows
 ```
 ]
 
@@ -241,180 +274,21 @@ count: false
 .panel1-the_chunk-auto[
 
 ```r
-employed_data = wage_data %&gt;%
-## Here, we will filter out any entries of individuals
-## with no occupation:
-  filter(Occupation!="53: Never Worked" &amp; Earnings &gt; 0)
+read_csv("wage_data.csv") -&gt;
+  wage_data
 
-## Producing this:
-employed_data %&gt;%
-## Using the mutate command, we will create a new
-## column displaying earnings per each family member:
-  mutate(Earnings_per_member=Earnings/FamilySize) %&gt;%
-## And then select what we want to include:
-  select(Earnings, FamilySize, Earnings_per_member)
-
-## We can also use the filter command to cut entries
-## reporting income over 150k, removing outliers:
-employed_under_150K = employed_data %&gt;%
-* filter(Earnings&lt;150000)
-```
-]
- 
-.panel2-the_chunk-auto[
-
-```
-# A tibble: 84,631 x 3
-   Earnings FamilySize Earnings_per_member
-      &lt;dbl&gt;      &lt;dbl&gt;               &lt;dbl&gt;
- 1   220000          5              44000 
- 2     8000          5               1600 
- 3     4000          5                800 
- 4    17350          2               8675 
- 5    12000          2               6000 
- 6    25480          1              25480 
- 7     6000          6               1000 
- 8    70200          6              11700 
- 9    10520          6               1753.
-10    46000          4              11500 
-# ... with 84,621 more rows
-```
-]
-
----
-count: false
- 
-
-.panel1-the_chunk-auto[
-
-```r
-employed_data = wage_data %&gt;%
-## Here, we will filter out any entries of individuals
-## with no occupation:
-  filter(Occupation!="53: Never Worked" &amp; Earnings &gt; 0)
-
-## Producing this:
-employed_data %&gt;%
-## Using the mutate command, we will create a new
-## column displaying earnings per each family member:
-  mutate(Earnings_per_member=Earnings/FamilySize) %&gt;%
-## And then select what we want to include:
-  select(Earnings, FamilySize, Earnings_per_member)
-
-## We can also use the filter command to cut entries
-## reporting income over 150k, removing outliers:
-employed_under_150K = employed_data %&gt;%
-  filter(Earnings&lt;150000)
-
-## Producing this:
+wage_data %&gt;%
+  filter(Occupation != "53: Never Worked" &amp;
+           Earnings &gt; 0) %&gt;%
+  mutate(Earnings_per_member = Earnings / FamilySize) %&gt;%
+  select(Earnings, Earnings_per_member, Sex, Age, Education) %&gt;%
+  filter(Earnings&lt; 150000) -&gt;
 *employed_under_150K
 ```
 ]
  
 .panel2-the_chunk-auto[
 
-```
-# A tibble: 84,631 x 3
-   Earnings FamilySize Earnings_per_member
-      &lt;dbl&gt;      &lt;dbl&gt;               &lt;dbl&gt;
- 1   220000          5              44000 
- 2     8000          5               1600 
- 3     4000          5                800 
- 4    17350          2               8675 
- 5    12000          2               6000 
- 6    25480          1              25480 
- 7     6000          6               1000 
- 8    70200          6              11700 
- 9    10520          6               1753.
-10    46000          4              11500 
-# ... with 84,621 more rows
-```
-
-```
-# A tibble: 80,635 x 10
-   Education Sex   Occupation   Age Earnings MaritalStatus Race  FamilySize
-   &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;      &lt;dbl&gt;
- 1 Less tha~ F     39: Retai~    20     8000 Never Married White          5
- 2 Less tha~ M     8: Comput~    16     4000 Never Married White          5
- 3 Less tha~ M     32: Chefs~    27    17350 Never Married Black          2
- 4 Less tha~ M     33: Food ~    24    12000 Never Married Hisp~          2
- 5 Bachelors M     31: Anima~    62    25480 Never Married White          1
- 6 Bachelors F     41: Farmi~    53     6000 Married       White          6
- 7 Bachelors M     8: Comput~    52    70200 Married       Asian          6
- 8 Less tha~ F     41: Farmi~    16    10520 Never Married Asian          6
- 9 Some Col~ F     30: Publi~    31    46000 Married       White          4
-10 Less tha~ M     48: Insta~    37    40000 Never Married White          1
-# ... with 80,625 more rows, and 2 more variables: FamilyMakeup &lt;chr&gt;,
-#   Age_squared &lt;dbl&gt;
-```
-]
-
----
-count: false
- 
-
-.panel1-the_chunk-auto[
-
-```r
-employed_data = wage_data %&gt;%
-## Here, we will filter out any entries of individuals
-## with no occupation:
-  filter(Occupation!="53: Never Worked" &amp; Earnings &gt; 0)
-
-## Producing this:
-employed_data %&gt;%
-## Using the mutate command, we will create a new
-## column displaying earnings per each family member:
-  mutate(Earnings_per_member=Earnings/FamilySize) %&gt;%
-## And then select what we want to include:
-  select(Earnings, FamilySize, Earnings_per_member)
-
-## We can also use the filter command to cut entries
-## reporting income over 150k, removing outliers:
-employed_under_150K = employed_data %&gt;%
-  filter(Earnings&lt;150000)
-
-## Producing this:
-employed_under_150K
-```
-]
- 
-.panel2-the_chunk-auto[
-
-```
-# A tibble: 84,631 x 3
-   Earnings FamilySize Earnings_per_member
-      &lt;dbl&gt;      &lt;dbl&gt;               &lt;dbl&gt;
- 1   220000          5              44000 
- 2     8000          5               1600 
- 3     4000          5                800 
- 4    17350          2               8675 
- 5    12000          2               6000 
- 6    25480          1              25480 
- 7     6000          6               1000 
- 8    70200          6              11700 
- 9    10520          6               1753.
-10    46000          4              11500 
-# ... with 84,621 more rows
-```
-
-```
-# A tibble: 80,635 x 10
-   Education Sex   Occupation   Age Earnings MaritalStatus Race  FamilySize
-   &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;      &lt;dbl&gt;
- 1 Less tha~ F     39: Retai~    20     8000 Never Married White          5
- 2 Less tha~ M     8: Comput~    16     4000 Never Married White          5
- 3 Less tha~ M     32: Chefs~    27    17350 Never Married Black          2
- 4 Less tha~ M     33: Food ~    24    12000 Never Married Hisp~          2
- 5 Bachelors M     31: Anima~    62    25480 Never Married White          1
- 6 Bachelors F     41: Farmi~    53     6000 Married       White          6
- 7 Bachelors M     8: Comput~    52    70200 Married       Asian          6
- 8 Less tha~ F     41: Farmi~    16    10520 Never Married Asian          6
- 9 Some Col~ F     30: Publi~    31    46000 Married       White          4
-10 Less tha~ M     48: Insta~    37    40000 Never Married White          1
-# ... with 80,625 more rows, and 2 more variables: FamilyMakeup &lt;chr&gt;,
-#   Age_squared &lt;dbl&gt;
-```
 ]
 
 &lt;style&gt;

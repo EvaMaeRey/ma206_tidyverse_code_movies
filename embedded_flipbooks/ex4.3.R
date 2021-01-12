@@ -1,3 +1,4 @@
+library(gapminder)
 gapminder %>%  
   filter(year == 2002) %>%  
   ggplot() +  
@@ -9,4 +10,6 @@ gapminder %>%
   labs(x = "Life Expectancy (Years)") +
   labs(y = "Count") + 
   labs(title = "National Life Expectancy by Region",
-       subtitle = "Data from 2002")
+       subtitle = "Data from 2002") +
+  facet_wrap(facets = vars(continent)) +
+  theme(legend.position = "none")

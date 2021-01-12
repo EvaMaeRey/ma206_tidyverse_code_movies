@@ -1,26 +1,23 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Ex. 4.3: Additional ggplot2 figures</title>
+    <title>Ex. 4.3: Dot Plot</title>
     <meta charset="utf-8" />
     <meta name="author" content="" />
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/hygge.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/ninjutsu.css" rel="stylesheet" />
-    <link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-    <script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
     <script src="libs/clipboard-2.0.6/clipboard.min.js"></script>
     <link href="libs/shareon-1.4.1/shareon.min.css" rel="stylesheet" />
     <script src="libs/shareon-1.4.1/shareon.min.js"></script>
-    <link href="libs/xaringanExtra-shareagain-0.2.4/shareagain.css" rel="stylesheet" />
-    <script src="libs/xaringanExtra-shareagain-0.2.4/shareagain.js"></script>
+    <link href="libs/xaringanExtra-shareagain-0.2.1/shareagain.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-shareagain-0.2.1/shareagain.js"></script>
   </head>
   <body>
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# Ex. 4.3: Additional ggplot2 figures
-## Dot Plot
+# Ex. 4.3: Dot Plot
 
 ---
 
@@ -41,6 +38,22 @@ count: false
 .panel1-the_chunk-auto[
 
 ```r
+*library(gapminder)
+```
+]
+ 
+.panel2-the_chunk-auto[
+
+]
+
+---
+count: false
+ 
+
+.panel1-the_chunk-auto[
+
+```r
+library(gapminder)
 *gapminder
 ```
 ]
@@ -61,7 +74,7 @@ count: false
  8 Afghanistan Asia       1987    40.8 13867957      852.
  9 Afghanistan Asia       1992    41.7 16317921      649.
 10 Afghanistan Asia       1997    41.8 22227415      635.
-# ... with 1,694 more rows
+# … with 1,694 more rows
 ```
 ]
 
@@ -72,6 +85,7 @@ count: false
 .panel1-the_chunk-auto[
 
 ```r
+library(gapminder)
 gapminder %&gt;%
 * filter(year == 2002)
 ```
@@ -93,7 +107,7 @@ gapminder %&gt;%
  8 Bahrain     Asia       2002    74.8    656397    23404.
  9 Bangladesh  Asia       2002    62.0 135656790     1136.
 10 Belgium     Europe     2002    78.3  10311970    30486.
-# ... with 132 more rows
+# … with 132 more rows
 ```
 ]
 
@@ -104,27 +118,10 @@ count: false
 .panel1-the_chunk-auto[
 
 ```r
+library(gapminder)
 gapminder %&gt;%
   filter(year == 2002) %&gt;%
 * ggplot()
-```
-]
- 
-.panel2-the_chunk-auto[
-&lt;img src="ex4.3_embed_files/figure-html/the_chunk_auto_03_output-1.png" width="576" /&gt;
-]
-
----
-count: false
- 
-
-.panel1-the_chunk-auto[
-
-```r
-gapminder %&gt;%
-  filter(year == 2002) %&gt;%
-  ggplot() +
-* aes(x = lifeExp)
 ```
 ]
  
@@ -139,11 +136,11 @@ count: false
 .panel1-the_chunk-auto[
 
 ```r
+library(gapminder)
 gapminder %&gt;%
   filter(year == 2002) %&gt;%
   ggplot() +
-  aes(x = lifeExp) +
-* aes(fill = continent)
+* aes(x = lifeExp)
 ```
 ]
  
@@ -158,12 +155,12 @@ count: false
 .panel1-the_chunk-auto[
 
 ```r
+library(gapminder)
 gapminder %&gt;%
   filter(year == 2002) %&gt;%
   ggplot() +
   aes(x = lifeExp) +
-  aes(fill = continent) +
-* theme_minimal()
+* aes(fill = continent)
 ```
 ]
  
@@ -178,13 +175,13 @@ count: false
 .panel1-the_chunk-auto[
 
 ```r
+library(gapminder)
 gapminder %&gt;%
   filter(year == 2002) %&gt;%
   ggplot() +
   aes(x = lifeExp) +
   aes(fill = continent) +
-  theme_minimal() +
-* geom_dotplot(alpha = .5)
+* theme_minimal()
 ```
 ]
  
@@ -199,14 +196,14 @@ count: false
 .panel1-the_chunk-auto[
 
 ```r
+library(gapminder)
 gapminder %&gt;%
   filter(year == 2002) %&gt;%
   ggplot() +
   aes(x = lifeExp) +
   aes(fill = continent) +
   theme_minimal() +
-  geom_dotplot(alpha = .5)  +
-* geom_rug(col = "darkgrey")
+* geom_dotplot(alpha = .5)
 ```
 ]
  
@@ -221,6 +218,7 @@ count: false
 .panel1-the_chunk-auto[
 
 ```r
+library(gapminder)
 gapminder %&gt;%
   filter(year == 2002) %&gt;%
   ggplot() +
@@ -228,8 +226,7 @@ gapminder %&gt;%
   aes(fill = continent) +
   theme_minimal() +
   geom_dotplot(alpha = .5)  +
-  geom_rug(col = "darkgrey") +
-* labs(x = "Life Expectancy (Years)")
+* geom_rug(col = "darkgrey")
 ```
 ]
  
@@ -244,6 +241,7 @@ count: false
 .panel1-the_chunk-auto[
 
 ```r
+library(gapminder)
 gapminder %&gt;%
   filter(year == 2002) %&gt;%
   ggplot() +
@@ -252,8 +250,7 @@ gapminder %&gt;%
   theme_minimal() +
   geom_dotplot(alpha = .5)  +
   geom_rug(col = "darkgrey") +
-  labs(x = "Life Expectancy (Years)") +
-* labs(y = "Count")
+* labs(x = "Life Expectancy (Years)")
 ```
 ]
  
@@ -268,6 +265,32 @@ count: false
 .panel1-the_chunk-auto[
 
 ```r
+library(gapminder)
+gapminder %&gt;%
+  filter(year == 2002) %&gt;%
+  ggplot() +
+  aes(x = lifeExp) +
+  aes(fill = continent) +
+  theme_minimal() +
+  geom_dotplot(alpha = .5)  +
+  geom_rug(col = "darkgrey") +
+  labs(x = "Life Expectancy (Years)") +
+* labs(y = "Count")
+```
+]
+ 
+.panel2-the_chunk-auto[
+&lt;img src="ex4.3_embed_files/figure-html/the_chunk_auto_11_output-1.png" width="576" /&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-the_chunk-auto[
+
+```r
+library(gapminder)
 gapminder %&gt;%
   filter(year == 2002) %&gt;%
   ggplot() +
@@ -284,7 +307,64 @@ gapminder %&gt;%
 ]
  
 .panel2-the_chunk-auto[
-&lt;img src="ex4.3_embed_files/figure-html/the_chunk_auto_11_output-1.png" width="576" /&gt;
+&lt;img src="ex4.3_embed_files/figure-html/the_chunk_auto_12_output-1.png" width="576" /&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-the_chunk-auto[
+
+```r
+library(gapminder)
+gapminder %&gt;%
+  filter(year == 2002) %&gt;%
+  ggplot() +
+  aes(x = lifeExp) +
+  aes(fill = continent) +
+  theme_minimal() +
+  geom_dotplot(alpha = .5)  +
+  geom_rug(col = "darkgrey") +
+  labs(x = "Life Expectancy (Years)") +
+  labs(y = "Count") +
+  labs(title = "National Life Expectancy by Region",
+       subtitle = "Data from 2002") +
+* facet_wrap(facets = vars(continent))
+```
+]
+ 
+.panel2-the_chunk-auto[
+&lt;img src="ex4.3_embed_files/figure-html/the_chunk_auto_13_output-1.png" width="576" /&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-the_chunk-auto[
+
+```r
+library(gapminder)
+gapminder %&gt;%
+  filter(year == 2002) %&gt;%
+  ggplot() +
+  aes(x = lifeExp) +
+  aes(fill = continent) +
+  theme_minimal() +
+  geom_dotplot(alpha = .5)  +
+  geom_rug(col = "darkgrey") +
+  labs(x = "Life Expectancy (Years)") +
+  labs(y = "Count") +
+  labs(title = "National Life Expectancy by Region",
+       subtitle = "Data from 2002") +
+  facet_wrap(facets = vars(continent)) +
+* theme(legend.position = "none")
+```
+]
+ 
+.panel2-the_chunk-auto[
+&lt;img src="ex4.3_embed_files/figure-html/the_chunk_auto_14_output-1.png" width="576" /&gt;
 ]
 
 &lt;style&gt;
