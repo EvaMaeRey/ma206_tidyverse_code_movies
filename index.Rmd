@@ -1,7 +1,7 @@
 ---
 title: "MA206 Code Movies"
 subtitle: "A companion for the MA206 Tidyverse Tutorial"
-author: "Code adapted by Conner Surrency and Gina Reynolds"
+author: "Code adapted from the MA206 Tidyverse Tutorial by Conner Surrency and Gina Reynolds"
 output: 
   rmdformats::readthedown:
     highlight: kate
