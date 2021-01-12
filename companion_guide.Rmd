@@ -1,0 +1,363 @@
+---
+title: "MA206 Companion Guide"
+author: Dr. Gina Reynolds, Conner Surrency
+output: 
+  rmdformats::readthedown:
+    highlight: kate
+---
+
+```{r setup, include = F}
+options(knitr.duplicate.label = "allow")
+knitr::opts_chunk$set(fig.width = 6, message = FALSE, warning = FALSE, comment = "", cache = F, error = F)
+library(flipbookr)
+library(tidyverse)
+library(gapminder)
+```
+
+---
+
+#### This companion guide will serve as additional learning material for the MA206 course. Specifically, it presents and dissects examples from the Tidyverse Tutorial, showing presenting examples *step-by-step* in an easy to re-create way. 
+
+#### For a more detailed walkthrough of the example data and the mechanics of each command, refer back to the MA206 Tidyverse Tutorial guide.
+
+###  
+***
+## 1. Using ***Tidyverse*** to Explore the Data
+***
+
+### Introduced in this example:
+
+#### read_csv(), select(), filter(), mutate(), summarise()
+####    
+
+#### First, we use the *read_csv()* command to bring our data into RStudio:
+```{r}
+wage_data <- read_csv("wage_data.csv")
+```
+
+#### This is what it will look like:
+```{r}
+wage_data
+```
+
+#### By using the *select()* command, we can choose the three columns of data we are interested in:
+```{r}
+wage_data %>% 
+  select(Earnings, Sex, Age)
+```
+
+
+```{r ex1, include = F}
+employed_data = wage_data %>%
+## Here, we will filter out any entries of individuals 
+## with no occupation:
+  filter(Occupation!="53: Never Worked" & Earnings > 0)
+
+## Producing this:
+employed_data %>%
+## Using the mutate command, we will create a new   
+## column displaying earnings per each family member: 
+  mutate(Earnings_per_member=Earnings/FamilySize) %>% 
+## And then select what we want to include: 
+  select(Earnings, FamilySize, Earnings_per_member)
+
+## We can also use the filter command to cut entries
+## reporting income over 150k, removing outliers:
+employed_under_150K = employed_data %>% 
+  filter(Earnings<150000)
+
+## Producing this:
+employed_under_150K
+
+```
+
+#### Now then, let's have a step-by-step look at what the *filter()* and *mutate()* commands can do:
+```{r, echo=FALSE}
+embed_flipbook(chunk_name = "ex1", 
+                       use_share_again = T,
+                       font_size = 90,
+                       title_page = T,
+                       title = "Ex. 1: Data Exploration",
+                       subtitle = "Tailoring Your Data with tidyverse",
+                       widths = c(1,1),
+                       use_embed_xaringan = T)
+```  
+
+#### We can also use the *summarize()* command to create new variables for later use. Here, we use it to identify the mean agfe of our sample population:
+```{r}
+mean_age = employed_data%>%
+  summarise(mean(Age)) %>% as.numeric()
+
+mean_age
+```
+
+---
+
+###      
+***
+## 2. Using ***ggplot2*** to Explore the Data
+***
+
+### Introduced in this example:
+
+#### ggplot(), aes(), labs(), group_by(), facet_wrap(), geom_histogram(), geom_point(), geom_smooth(), geom_line(), geom_boxplot()
+####      {.tabset .tabset-fade .tabset-pills}
+
+##### Ex. 2.1: Histogram
+```{r ex2.1, include = F}
+employed_under_150K %>%
+  ggplot() + 
+  aes(x = Earnings) +
+  aes(fill = Sex) + 
+  geom_histogram(position = "dodge") +
+  labs(x = "Earnings (USD)") +
+  labs(y = "Count") + 
+  labs(title = "Histogram of Earnings by Sex") +
+  facet_wrap(facets = vars(Sex))
+```
+
+```{r, echo = F}
+embed_flipbook(chunk_name = "ex2.1", 
+                       use_share_again = T,
+                       font_size = 90,
+                       title_page = T,
+                       title = "Ex. 2.1: Building Your Plot",
+                       subtitle = "Histogram",
+                       widths = c(1,1),
+                       use_embed_xaringan = T)
+```  
+
+##### Ex. 2.2: Scatterplot
+```{r ex2.2, include = F}
+employed_under_150K %>%
+  ggplot() + 
+  aes(x = Age) +
+  aes(y = Earnings) +
+  aes(color = Sex) +
+  geom_point(alpha = 0.2) +
+  labs(x = "Age (Years)") +
+  labs(y = "Count") + 
+  labs(title = "Age vs. Earnings by Sex") +
+  facet_wrap(facets = vars(Sex)) +
+  geom_smooth(color = "black")
+```
+
+```{r, echo = F}
+embed_flipbook(chunk_name = "ex2.2", 
+                       use_share_again = T,
+                       font_size = 90,
+                       title_page = T,
+                       title = "Ex. 2.2: Building Your Plot",
+                       subtitle = "Scatterplot",
+                       widths = c(1,1),
+                       use_embed_xaringan = T)
+```  
+
+##### Ex. 2.3: Line Plot
+```{r ex2.3, include = F}
+employed_under_150K %>% 
+  group_by(Age) %>% 
+  summarise(Median = median(Earnings)) %>% 
+  ggplot() + 
+  aes(x = Age) +
+  aes(y = Median) +
+  geom_line() +
+  labs(x="Age (Years)") + 
+  labs(y="Earnings (USD)") +
+  labs(title = "Age vs. Median Earnings")
+
+employed_under_150K %>% 
+  group_by(Age, Sex) %>% 
+  summarise(Median = median(Earnings)) %>% 
+  ggplot() + 
+  aes(x = Age) +
+  aes(y = Median) +
+  aes(color = Sex) +
+  geom_line() +
+  labs(x="Age (Years)") + 
+  labs(y="Earnings (USD)") +
+  labs(title = "Age vs. Median Earnings by Sex")
+```
+
+```{r, echo = FALSE}
+embed_flipbook(chunk_name = "ex2.3", 
+                       use_share_again = T,
+                       font_size = 90,
+                       title_page = T,
+                       title = "Ex. 2.3: Building Your Plot",
+                       subtitle = "Line Plot",
+                       widths = c(1,1),
+                       chunk_options = "fig.height = 3",
+                       use_embed_xaringan = T)
+``` 
+
+---
+
+###      
+***
+## 3. Using ***ggplot2*** Commands for Data Visualization
+***
+
+### Introduced in this example:
+
+#### labs() *[additional uses]*, scale_x_continuous(), scale_y_continuous(), limits(), breaks(), theme_X()
+####    
+
+```{r ex3, include = F}
+employed_under_150K %>% 
+  group_by(Age, 
+           Sex) %>% 
+  summarise(Median = median(Earnings)) %>% 
+  ggplot(aes(x = Age, 
+             y=Median)) +
+  geom_line() +
+  aes(color = Sex) +
+  labs(x="Age (Years)") +
+  labs(y="Earnings (USD)") +
+  labs(color = "Sex of respondent") +
+  labs(title = "Age vs. Median Earnings by Sex") +
+  scale_x_continuous(limits=c(0,100), 
+                     breaks=c(seq(from = 0,
+                                  to = 100,
+                                  by = 10))) +
+  scale_y_continuous(limits=c(0,70000), 
+                     breaks=c(10000, 30000, 50000)) +
+  theme_bw() +
+  theme_dark() +
+  theme_light() +
+  theme_gray() +
+  theme_void() +
+  theme_linedraw() +
+  theme_minimal() +
+  theme_classic()
+```
+
+```{r, echo = FALSE}
+embed_flipbook(chunk_name = "ex3", 
+                       use_share_again = T,
+                       font_size = 90,
+                       title_page = T,
+                       title = "Ex. 3: More ggplot2 Commands",
+                       subtitle = "Thematic and Display Adjustments",
+                       widths = c(1,1),
+                       use_embed_xaringan = T)
+```     
+
+---
+
+###      
+***
+## 4. Additional ***ggplot2*** Geometric Objects
+***
+
+### Introduced in this example:
+
+#### geom_col(), geom_bar(), geom_dotplot(), group_by(), factor(), c() 
+####     {.tabset .tabset-fade .tabset-pills}
+
+##### Ex. 4.1: Column Chart
+```{r ex4.1, include = F}
+employed_under_150K %>%
+  group_by(Education, Sex) %>%
+  summarize(mean_earnings = mean(Earnings)) %>%
+  mutate(Education = factor(Education, 
+                            levels = c("Less than HS", 
+                                       "HS Graduate", 
+                                       "Some College/Associates", 
+                                       "Bachelors", 
+                                       "Masters", 
+                                       "PhD/MD/JD"))) %>% 
+  ggplot() + 
+  aes(x = mean_earnings, y = Education) + 
+  aes(fill = Sex) + 
+  geom_col(position = "dodge") + 
+  labs(x = "Mean Earnings (USD)") + 
+  labs(y = "Count") + 
+  labs(title = "Column Chart of Mean Earnings by Education",
+       subtitle = "Divided by Share of Each Sex") + 
+  scale_x_continuous(labels = scales::comma)
+```
+
+```{r, echo = F}
+embed_flipbook(chunk_name = "ex4.1", 
+                       use_share_again = T,
+                       font_size = 90,
+                       title_page = T,
+                       title = "Ex. 4.1: Additional ggplot2 figures",
+                       subtitle = "Column Chart",
+                       widths = c(1,1),
+                       use_embed_xaringan = T)
+```
+
+
+##### Ex. 4.2: Bar Plot
+```{r ex4.2, include = F}
+employed_under_150K %>%
+  ggplot() + 
+  aes(x = Sex) +
+  aes(fill = Sex) +
+# bar is a special case of col
+# It counts the number of observations
+# And this is the y of the column
+  geom_bar() + 
+  labs(x = "Earnings (USD)") +
+  labs(y = "Count") + 
+  labs(title = "Bar Plot of Total Earnings by Sex")
+```
+
+```{r, echo = F}
+embed_flipbook(chunk_name = "ex4.2", 
+                       use_share_again = T,
+                       font_size = 90,
+                       title_page = T,
+                       title = "Ex. 4.2: Additional ggplot2 figures",
+                       subtitle = "Bar Plot",
+                       widths = c(1,1),
+                       use_embed_xaringan = T)
+``` 
+
+##### Ex. 4.3: Dot Plot
+```{r ex4.3, include = F}
+gapminder %>%  
+  filter(year == 2002) %>%  
+  ggplot() +  
+  aes(x = lifeExp) +  
+  aes(fill = continent) +
+  theme_minimal() +  
+  geom_dotplot(alpha = .5)  +
+  geom_rug(col = "darkgrey") +  
+  labs(x = "Life Expectancy (Years)") +
+  labs(y = "Count") + 
+  labs(title = "National Life Expectancy by Region",
+       subtitle = "Data from 2002")
+```
+
+```{r, echo=FALSE}
+embed_flipbook(chunk_name = "ex4.3", 
+                       use_share_again = T,
+                       font_size = 90,
+                       title_page = T,
+                       title = "Ex. 4.3: Additional ggplot2 figures",
+                       subtitle = "Dot Plot",
+                       widths = c(1,1),
+                       use_embed_xaringan = T)
+```
+
+***
+
+###    
+### END
+
+ 
+
+---
+
+```{css, eval = TRUE, echo = FALSE}
+.remark-code{line-height: 1.5; font-size: 80%}
+
+@media print {
+  .has-continuation {
+    display: block;
+  }
+}
+```

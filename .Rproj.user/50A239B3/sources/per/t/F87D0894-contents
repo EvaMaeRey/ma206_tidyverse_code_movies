@@ -1,0 +1,543 @@
+---
+title: "MA206 Tidyverse Tutorial 21-1"
+author: "Daniel Baller"
+date: "`r Sys.Date()`"
+output: 
+  rmdformats::readthedown:
+    highlight: kate
+---
+```{r klippy, echo=FALSE, message=FALSE, warning=FALSE, include=TRUE}
+# klippy::klippy()
+```
+
+***
+# Downloading R and RStudio
+***
+
+There are two files that you must download to have RStudio work on your computer.  
+
+First visit the <a href="https://cran.rstudio.com/" target="_blank">CRAN website</a>.  First select "Download R for Windows, followed by "install R for the first time."  You will then select "Download R 4.0.2 for Windows" which will download the install file to your computer.  
+
+Second, visit  <a href="https://www.rstudio.com/products/rstudio/download/" target="_blank">the RStudio</a> website.  Select the "Download" under RStudio Desktop FREE.  This will automatically scroll you to the bottom of the page.  You can then select "RStudio-1.3.1056.exe" under **All Installers**.   
+
+Finally, to familiarize yourself with RStudio watch videos 1.1-1.4 on the MA206 Course Channel on Microsoft Stream <a href="https://web.microsoftstream.com/channel/9bb9466a-02bb-4d8c-9531-cad645abfb73">Here</a>. 
+
+***
+# Getting Started
+***
+
+Why do we use R? That's a great question. R is a powerful statistical software package that will allow you to explore data, run quick calculations, and conduct statistical tests in order to answer real world questions. In this class we want you to focus on answering questions with data and R is a great tool to help you in this goal.  As a bonus it's FREE.
+
+***
+## Installing Tidyverse
+***
+
+R uses packages that provide additional capabilities.  Because R is an opensource community people around the world are constantly developing packages that make your life easier.  To install tidyverse you will need to run the following line of code in the Console.  (You only have to do this one time).  This may take a while depending on your internet connection.
+
+```{r eval=FALSE}
+install.packages("tidyverse")
+```
+
+***
+## The line of code you will have in every script
+***
+
+We will be using tidyverse nearly every lesson in this course.  Each time you open RStudio you will need to tell RStudio you want to use tidyverse.  This is done using the `library()` command.  Every time you create a new script in this course the first line of your code will be...  
+
+```{r warning=FALSE,message=FALSE}
+library(tidyverse)
+```
+
+Each time you reopen RStudio you will need to rerun the above line of code.
+
+## The research question
+
+In this tutorial we will explore a data set to help answer a research question similar to what you will do in the course project. There really is no point in doing analysis if we don't have a question we are trying to answer.  For this example we will start with a broad question: What factors influence wages in America? Then we will examine a more specific question: Is there a wage gap between men and women?
+
+## Now we need some data
+
+Once we have our research question we need to collect some data.  We will use a data set publicly available from the Center for Economic and Policy Research (CEPR) Uniform Extracts.  This data set is compiled from the 2018 Annual Social and Economic (ASEC) Supplement of the Current Population Survey (CPS) sponsored by the U.S. Bureau of Labor Statistics and conducted by the U.S. Census Bureau.  The data set used in this example can be found on the course blackboard page <a href="https://usma.blackboard.com/" target="_blank"> Course Blackboard Page. </a>
+
+### Summary of the 2018 ASEC CPS Data Set
+
+The original data set from the Bureau of Labor Statistics has over 400 variables.  We reduced this to a data set of only 10 variables for analysis.  The following table is a summary of the data in this data set.  When researchers provide you with a data set, they will often provide you a guide similar to this that describes the data.
+
+<center>
+|Variable |Column Name |Units |Variable Type|
+|--------|-----------|-----|-------------|
+|Education|Education|N/A| Categorical| 
+|Sex|Sex|N/A| Categorical|
+|Occupation|Occupation |N/A| Categorical|
+|Age|Age|Years| Quantitative|
+|Earnings |Earnings |Dollars| Quantitative|
+|Marital Status |MaritalStatus|N/A| Categorical|
+|Race |Race|N/A| Categorical|
+|Family Size |FamilySize|N/A| Categorical|
+|Family Makeup |FamilyMakeup|N/A| Categorical|
+|Age Squared |Age_squared|Years| Quantitative|
+</center>
+
+***
+## Reading in a data file
+***
+
+Throughout the course you will be provided several data sets.  To get your data into RStudio we will use the `read_csv()` command.  Note, this command will not work unless you have already run `library(tidyverse)`. Inside the `read_csv()` command you will paste the full file path of the data.  This can be done using the following steps: 
+
+1. Open the folder where the data set is located on your computer.
+2. Select the address bar at the top and copy the path that appears.
+3. Paste the path between quotation marks in the `read_csv()` command
+4. Be sure to add the file name to the end of the path and include .csv at the end.
+5. Change all "\\" to "/". You can easily accomplish this by using Ctrl+F which opens a find and replace like Microsoft products.
+
+The following code will read in the data set and name it `wage_data`.
+
+```{r message=FALSE, warning=FALSE}
+wage_data <- read_csv("wage_data.csv")
+```
+
+You will now notice you have a dataframe in your Global Environment named "wage_data". 
+
+Next you can look at your data using the `head()` command.  This will show the first six rows of your data.
+
+```{r}
+head(wage_data)
+```
+
+You will notice that each column has a name.  Each column represents a variable that could be quantitative or categorical.  When we want to reference a specific variable, we can use the name of the column.  Example:
+
+```{r eval = FALSE}
+wage_data$Age
+```
+
+Here we use the `$` to take the Age variable from the wage_data data set. This is just one of the several ways to reference a specific variable in a data set.
+
+
+***
+# Using Tidyverse to Explore the Data
+***
+
+Step 3 of the Six Steps of a Statistical Investigation is to "Explore the Data."  Tidyverse is designed to assist with data exploration.
+
+The commands we will use are `select()`, `filter()`, `summarise()`, `group_by()`, and `mutate()`.
+
+First, we need to learn the "pipe" which is the term used to describe `%>%`.  When reading the code, you can replace `%>%` with "and then."  This command makes reading and interpreting your code easier.  This will become clearer as we work through examples. NOTE: The keyboard shortcut to add a "pipe" to your code is `ctrl+shift+m`.
+
+The following selections will cover a few of the Tidyverse commands:
+<center>
+|Command| Purpose|
+|-------|-----------------------------------------------|
+|`select()`|Select variables by name|
+|`filter()`|Return rows with matching conditions|
+|`summarise()`|Allows you to make calculations using your data|
+|`group_by()`|Group by one or more variables|
+|`mutate()`|Add new variables|
+</center>
+
+## Reducing the number of variables you are working with (`select()`)
+
+When working with real world data you will usually have more variables (usually columns) than you are interested in. Big data sets may difficult for your computer to handle. As we stated in the beginning, the original 2018 ASEC CPS Survey data set had over 400 variables. We used the `select()` command, which retains or removes columns from a data set, to reduce the original data set of over 400 variables to the 10 variables you will use in this tutorial.  However, let's say you are only intereted in the sex, and age variables.  You can use the `select()` command to choose only those columns.
+
+```{r}
+wage_data %>% 
+  select(Earnings, Sex, Age)
+```
+Notice that the order you choose for the variables in the select() command is the order of the columns in your output.  
+
+You can also use `-` to remove columns. Below we will remove the all columns except for those three variables of interest to achieve the same result.
+
+```{r}
+wage_data %>% 
+  select(-Education, -Occupation, -MaritalStatus, -Race, -FamilySize, -FamilyMakeup, -Age_squared)
+```
+By removing these variables, the remaining columns remain in the same order as in the original data.
+
+
+## Working with certain observations in our data (`filter()`)
+
+Similar to how we selected certain variables (columns), we can also select certain observations (rows) using the `filter()` command.  Since we are interested in assessing what factors impact earnings, it would make sense to only look at individuals who have earnings. To eliminate individuals that did not have any earnings in the last year, we can use the `filter()` command.  The filter command works just like the filter command in Excel.  It works with equalities and inequalities: `==`,`<=`,`>=`,`<`,`>` and not equal to `!=`.
+
+```{r}
+wage_data %>%
+  filter(Earnings>0)
+```
+
+If you were to read this code, you would say:  Take wage_data "and then" filter to keep only the individuals that earned more than \$0 in the last year.  The resulting data set has been reduced from 180,084 observations to 84,782 observations.
+
+We are also able to use the `filter()` command on categorical variables. NOTE: When using the filter command to filter based on a string (words) you will have to put the words inside of `""`.  
+
+Here we can retain only the rows of data where occupation does not equal "53: Never Worked".
+
+```{r}
+wage_data %>%
+  filter(Occupation != "53: Never Worked")
+```
+
+The resulting data set has been reduced from the original 180,084 observations to 89,661 observations which doesn’t match the number of observations when we filtered on earnings>0. This indicates that some people worked at some time but reported no earnings, while others are labelled as ‘Never Worked’ but reported earnings.
+
+Using the ampersand, `&`, we can filter for both requirements at the same time and save the result as a new data set of employed individuals.
+
+```{r}
+employed_data = wage_data %>%
+  filter(Occupation!="53: Never Worked" & Earnings > 0)
+```
+
+You will notice you have a new data frame in your global environment called `employed_data`. We will use this new data frame as we continue our exploration of the data.  
+
+## Calculating Summary Statistics (`summarise()`)
+
+The first thing we do when exploring a new data set is calculate summary statistics such as the mean, median, variance, and standard deviation.  Perhaps you would like to calculate the mean (or average) earnings in our sample.  The summarise command can do this in conjunction with the command `mean()`.  The `mean()` command calculates the average of the selected data. NOTE: The tidyverse is designed to work with both American and British English.  This allows us to use either `summarize()` or `summarise()` to do the same thing.   
+
+```{r}
+employed_data %>%
+  summarise(Mean_Earnings = mean(Earnings))
+```
+
+The output that appears in your console contains the calculation.  In this example the mean of earnings is \$52,670.
+
+This is how you would read the above code.  Take my employed_data "and then" summarize the data, by calculating the mean of earnings.
+
+You can also find the median (or middle value) of earnings using the `median()` command.
+
+```{r}
+employed_data %>%
+  summarise(Median_Earnings = median(Earnings))
+```
+We see the median of only \$38,000 is considerably lower than the mean of $52,670, indicating that we have some very high earners in the data that influence the average earnings.  
+
+You can assess the variability of the data by calculating the standard deviation of earnings using the `sd()` command.
+
+```{r}
+employed_data %>%
+  summarise(SD_Earnings = sd(Earnings))
+```
+A large standard deviation of \$69,212 indicates that there is a lot of variability in the earnings data.  
+
+While the values we have calculated may give us some insight about our data, it is rare that looking at only one variable provides meaningful insights.  Thorough exploration of data requires multivariable thinking (i.e. thinking in two or more dimensions). One way to accomplish this is by stratifying (or grouping) the data based on one or more variables prior to analyzing another variable. We can do this by using the `group_by()` command.
+
+If we are interested in if there is a difference in earnings for males and females we could first group the data by `sex` and then execute our calculations on these two groups. NOTE: the `n()` command will count the number of observations in each group?
+
+```{r message=FALSE, warning=FALSE}
+employed_data %>% 
+  group_by(Sex) %>% 
+  summarise(Mean_Earnings = mean(Earnings), 
+            Median_Earnings = median(Earnings), 
+            size = n())
+```
+You can read the above code as take the employed data "and then" group it by sex, "and then" summarise the data by calculating the mean and median of earnings and counting the number of observations in each group.  NOTE: When calculating multiple values in the `summarise()` command we separate each command with a comma.
+
+Our output shows that the mean earnings for men is approximately \$20,000 higher than for women and the median earnings for men is approximately \$14,000 higher.  While this shows that there is a difference between male and female earnings, it doesn't tell us why that difference exists. We will learn more about what conclusions (inferences) you can draw from your data throughout this course. We should continue exploring more of our variables to get more information about these differences.
+
+The `group_by()` command also allows you to group by multiple variables. In the code below we group by both Sex and Marital Status prior to calculating the mean and median.  We then use the `arrange()` command to sort the output by marital status for easier comparison.
+
+```{r message=FALSE, warning=FALSE}
+employed_data %>% 
+  group_by(Sex, MaritalStatus) %>% 
+  summarise(Mean_Earnings = mean(Earnings), 
+            Median_Earnings = median(Earnings), 
+            Size = n()) %>% 
+  arrange(MaritalStatus)
+```
+
+Here we see the largest difference is between "married" males and females while the smallest difference is between "never married" males and females. This indicates that marital status may have an impact on earnings.  
+
+## Creating New Variables (`mutate()`)
+
+As you explore a data set you might want to create a new variable using your existing variables.  For example, what if you wanted a new variable:  Earnings per family member.  The mutate command allows you to create new variables (columns) using mathematical manipulations.
+
+```{r}
+employed_data %>%
+  mutate(Earnings_per_member=Earnings/FamilySize) %>% 
+  select(Earnings, FamilySize, Earnings_per_member)
+```
+
+You will notice that there is now a new column (variable) in the data named Earnings_per_member.
+
+## Creating Variables in R to use for Future Calculations (`summarise()`)
+
+Throughout the course you will need to calculate sample means and proportions from data to use in other calculations. The easiest way to accomplish this is to create variables using the `summarize()` command.  Here we will make a variable for our sample mean of age.    
+
+```{r}
+mean_age = employed_data%>%
+  summarise(mean(Age)) %>% as.numeric()
+```
+
+The above code calculates the mean of the Age column, makes sure that it is numeric and then saves it with the variable name mean_age.  The `as.numeric()` ensures that the optput of our calculation is a single numeric value and not a data frame.  When you name a variable, you will not have output in your console.  To see the output, you must type the variable name.
+
+```{r}
+mean_age
+```
+
+You now have a new variable called mean_age in your global environment.  Its value is 41.78 years.  If you wanted to use this variable in a different equation you just need to type the variable name, just like in Mathematica:
+
+```{r}
+2 * mean_age
+```
+
+## Summary of Tidyverse
+
+In this section you learned some of the commands in the tidyverse library.  There are other tidyverse commands and you can read about them in the online book <a href="https://r4ds.had.co.nz/">R for Data Science</a>.
+
+<center>
+|Command| Purpose|
+|-------|-----------------------------------------------|
+|`select()`|Select variables by name|
+|`filter()`|Return rows with matching conditions|
+|`summarise()`|Allows you to make calculations using your data|
+|`group_by()`|Group by one or more variables|
+|`mutate()`|Add new variables|
+</center>
+
+***
+# Using ggplot2 to Explore the Data
+***
+
+Inside the tidyverse package is the ggplot2 library.  This library allows us to make figures that can help us visualize and explore our data, especially as part of multivariable thinking.  
+
+## ggplot2 Structure
+
+Using ggplot2 to create a figure is a lot like making a cake.  You add extra layers to a cake and we will add extra layers to our figure. Each layer is added using a `+`.  First, we need to understand the structure of a ggplot.
+
+The first command is `ggplot()`.  This command tells R that we would like to plot something.  Inside of `ggplot()` we will use `aes()` which stands for aesthetics and will allow us to set which variables we are visualizing.  We will start visualizing our data by looking at the Earnings variable.  In this plot I want Earnings on my x-axis.  We will use the `%>%` (pipe) to send our data to the `ggplot()` command.
+
+```{r,fig.show='hide'}
+employed_data %>%
+  ggplot() +
+  aes(x = Earnings)
+```
+
+Inside of `aes()` you tell ggplot how you want your variables to be arranged.  `x = ` assigns your x-axis to a variable, `y = ` assigns your y-axis to a variable, and variables can also be assigned to the aesthetics `color =`, `fill =`, `shape =`, and `size =`.  NOTE: Not all of these aesthetics are applicable to every type of figure.  
+
+Next, we will add a geometric object (or geom).  This is the type of figure you want to make.  There are many options for every type of data, and you must choose the one that works best for the story you are going to tell.  We will add this "layer" using a `+`.  Since earnings is a single quantitative variable, a histogram would be a good choice to visualize this data. Each geometric object command begins with `geom_` and is followed by the type.  A list of geometric objects will be provided at the end of the section.  For a histogram the command is `geom_histogram()`.  Here is the code to make the plot:
+
+```{r message=FALSE, warning=FALSE}
+employed_data %>%
+  ggplot() +
+  aes(x = Earnings) +
+  geom_histogram()
+```
+
+We are not done yet.  This plot lacks a title and proper axis labels.  To correct this, we will add another layer.  There are several options, but we will use the `labs()` command.
+
+```{r message=FALSE, warning=FALSE}
+employed_data %>%
+  ggplot() +
+  aes(x = Earnings) +
+  geom_histogram()+
+  labs(x="Earnings (USD)", y="Count", title = "Histogram of Earnings")
+```
+
+Looking at this plot we see that almost all of our observations are below \$150,000 in earnings and there are a few large outliers that have skewed the data. This corresponds to what we found comparing the mean and median of earnings earlier. In this case it may be beneficial for us to filter our observations to earnings < \$150,000 for further analysis.  We can do this using the `filter()` command that you used earlier.
+
+```{r message=FALSE, warning=FALSE}
+employed_under_150K = employed_data %>% 
+  filter(Earnings<150000)
+```
+
+```{r eval=FALSE, include=FALSE}
+employed_data %>% filter(Earnings>150000) %>%  count(Sex)
+
+employed_under_150K %>% count(Sex)
+```
+We have now created a subset of our data that has 80,635 observations. This removed about 4% of the original observations. Let's look at the same plot using this data. 
+
+```{r message=FALSE, warning=FALSE}
+employed_under_150K %>%
+  ggplot(aes(x = Earnings))+
+  geom_histogram()+
+  labs(x="Earnings (USD)",y="Count",title = "Histogram of Earnings")
+```
+
+While this data is still right skewed, we have a much better understanding of what the distribution of the bulk of our observations looks like.  The ggplot2 package makes multivariable visualizations easy to create by adding additional aesthetics.  Lets add our variable Sex to this plot using `fill = Sex`.
+
+```{r message=FALSE, warning=FALSE}
+employed_under_150K%>%
+  ggplot(aes(x = Earnings, fill = Sex))+
+  geom_histogram()+
+  labs(x="Earnings (USD)",y="Count",title = "Histogram of Earnings by Sex")
+```
+
+Here we can see the difference in distributions for men and women.  By adding an additional variable to our figure we are able to gain more information about our data that was not apparent in the last plot. However, it may still be tough to compare the distirbutions for males and females in this stacked histogram.  By adding `position = "dodge"` inside `geom_histogram()` we can clearly see the difference in the distributions.   
+
+```{r message=FALSE, warning=FALSE}
+employed_under_150K%>%
+  ggplot(aes(x = Earnings, fill = Sex))+
+  geom_histogram(position="dodge")+
+  labs(x="Earnings (USD)",y="Count",title = "Histogram of Earnings by Sex")
+```
+
+Continuing with multivariable thinking, lets visualize this data using three of our variables: Age, Sex, and Earnings.  Since Age and Earnings are both quantitative variables we will assign them to the x and y axis and make a scatter plot. We will also color our plot by the categorical variable Sex.
+```{r}
+employed_under_150K%>%
+  ggplot(aes(x = Age,y=Earnings, color = Sex))+geom_point()+
+  labs(x="Age (Years)",y="Earnings (USD)",title = "Age vs. Earnings by Sex")
+```
+Wow!!! What a mess. Scatterplots are usually a good way to depict two quantitative variables, however, since there are so many data points there is not much that we can learn by analyzing this figure.  It may be more useful to plot a summary statistic of our data.  In this case lets plot the median of earnings by age.
+
+Here we will first group the data by age and then calculate the median earnings for each group. We will then pass the output to ggplot using the pipe command. To connect the points in our figure we will use `geom_line()`.  
+
+```{r}
+employed_under_150K %>% 
+  group_by(Age) %>% 
+  summarise(Median = median(Earnings)) %>% 
+  ggplot(aes(x = Age,y=Median))+geom_line()+
+  labs(x="Age (Years)",y="Earnings (USD)",title = "Age vs. Median Earnings")
+```
+
+
+This plot shows how median earnings change across ages.  However, this doesn't tell us anything about the differences between males and females.  If we instead group by both Age and Sex, we can then use Sex to color our figure and see how the medians compare. NOTE: The message between the code and the plot is R informing us of the grouping structure of the data following the summarise command.
+  
+```{r}
+employed_under_150K %>% 
+  group_by(Age, Sex) %>% 
+  summarise(Median = median(Earnings)) %>% 
+  ggplot(aes(x = Age,y=Median, color = Sex))+geom_line()+
+  labs(x="Age (Years)",y="Earnings (USD)",title = "Age vs. Median Earnings by Sex")
+```
+
+This plot shows that the median earnings of men and women are close until age 28, from 28 to 70 there is a larger gap, which then gets smaller after 70. Is this difference in medians significant? Is this gap only due to sex? Is it a coincidence the largest gap is during typical child-bearing years? What other factors in our data that are absent from our analysis could be contributing to these results? Is this pattern the same for all occupations?  These are the types of the questions that you should be asking when looking at a figure like this.
+
+Let's also revisit our previous analysis of stratifying by Maratial Status, visualy using our reduced dataset.  We will do this using a comparative box plot.
+
+```{r message=FALSE, warning=FALSE}
+employed_under_150K %>% 
+  ggplot(aes(x = MaritalStatus, y = Earnings, color = Sex)) + geom_boxplot()+
+  labs(title  = "Comparative Boxplot of Marital Status and Earnings by Sex", x = "Marital Status")
+```
+
+In the above code, we set our x-axis to be Marital Status, the y-axis to be Earnings and we color the figure by Sex.  This creates two levels (male and female) within each level of Marital Status.  This figure reenforces our earlier analysis by showing that the largest difference is between "married" males and females while the smallest difference is between "never married" males and females.  Why do we see this trend? Is there a difference in education betwen "married" and "never married" males and females? Or maybe a difference in ages or types of careers? These are areas that we would want to continue investigating as we conduct our exploration of the data.  
+
+## More ggplot2 Commands
+
+So far you have seen some of the ggplot2 capabilities; however, there are many more options to make the figure you want.  You can read about them in the online book <a href="https://r4ds.had.co.nz/">R for Data Science</a>.
+
+Here are just a few more commands you will find useful.  These commands will be explained by seeing how they change the figure we just created.
+
+### How to change a legend title
+
+You can add this in your `labs()` layer.
+
+```{r}
+employed_under_150K %>% 
+  group_by(Age, Sex) %>% 
+  summarise(Median = median(Earnings)) %>% 
+  ggplot(aes(x = Age, y=Median, color = Sex))+geom_line()+
+  labs(x="Age (Years)",y="Earnings (USD)", color = "Sex of respondent", title = "Age vs. Median Earnings by Sex")
+```
+
+You now see the legend title has changed to "Sex of Respondent"
+
+### How to change font size
+
+You can change your font size, and many other attributes, in the `theme()` layer.  
+
+```{r}
+employed_under_150K %>% 
+  group_by(Age, Sex) %>% 
+  summarise(Median = median(Earnings)) %>% 
+  ggplot(aes(x = Age,y=Median, color = Sex))+geom_line()+
+  labs(x="Age (Years)",y="Earnings (USD)", color = "Sex of respondent", title = "Age vs. Median Earnings by Sex")+
+  theme(text = element_text(size=20))
+```
+
+Or you can have your title be a larger font size too by adding `plot.title = element_text()` inside of the `theme()` layer.
+
+```{r}
+employed_under_150K %>% 
+  group_by(Age, Sex) %>% 
+  summarise(Median = median(Earnings)) %>% 
+  ggplot(aes(x = Age,y=Median, color = Sex))+geom_line()+
+  labs(x="Age (Years)",y="Earnings (USD)", color = "Sex of respondent", title = "Age vs. Median Earnings by Sex")+
+  theme(text = element_text(size=10),plot.title=element_text(size=30))
+```
+
+### How to change axis values
+
+You can also change the numbers and their range along your axis.  To do this we will add the layers `scale_x_continuous()` and `scale_y_continuous()`
+
+To change the range, you set `limits=c(a,b)` where `a` is your lower limit and `b` is your upper limit.
+
+To change the breaks, you set `breaks=c(10000, 30000, 50000)` where now only the numbers 10000, 30000, and 50000 will appear on your axis.
+
+```{r}
+employed_under_150K %>% 
+  group_by(Age, Sex) %>% 
+  summarise(Median = median(Earnings)) %>% 
+  ggplot(aes(x = Age,y=Median, color = Sex))+geom_line()+
+  labs(x="Age (Years)",y="Earnings (USD)", color = "Sex of respondent", title = "Age vs. Median Earnings by Sex")+
+  scale_x_continuous(limits=c(0,100), breaks=c(seq(from = 0,to = 100,by = 10)))+
+  scale_y_continuous(limits=c(0,70000), breaks=c(10000, 30000, 50000))
+```
+
+In this example we used `breaks=c(10000, 30000, 50000)` to make our "breaks" along our y-axis.
+
+Also, we used `breaks=c(seq(from = 0,to = 100,by = 10))` to make our breaks along our x-axis.  The `seq()` command makes a sequence of numbers using the step size you set (`by = 10`)
+
+### How to change the theme
+
+R has many built in themes for data visualization. Each theme starts with `theme_` followed by the name of the theme.  Also, there are many additional packages you can install with themes based on a variety of topics from different websites to popular tv shows. Themes are usually added at the end of your plot code using the `+`.
+
+Here we will show two examples of built in themes in R.  First using `theme_classic()`.
+
+```{r}
+employed_under_150K %>% 
+  group_by(Age, Sex) %>% 
+  summarise(Median = median(Earnings)) %>% 
+  ggplot(aes(x = Age,y=Median, color = Sex))+geom_line()+
+  labs(x="Age (Years)",y="Earnings (USD)", color = "Sex of respondent", title = "Age vs. Median Earnings by Sex")+
+  theme_classic()
+```
+
+And second using `theme_bw()`.
+
+```{r}
+employed_under_150K %>% 
+  group_by(Age, Sex) %>% 
+  summarise(Median = median(Earnings)) %>% 
+  ggplot(aes(x = Age,y=Median, color = Sex))+geom_line()+
+  labs(x="Age (Years)",y="Earnings (USD)", color = "Sex of respondent", title = "Age vs. Median Earnings by Sex")+
+  theme_bw()
+```
+
+### How to change the size of your points
+
+You can also change your size of points in a figure based on a different variable. In this example we will look at age vs earnings for one level of the Occupation variable, "14: Economists". We will then size our dots based on Family Size.  We have shown how to use `aes()` inside the `ggplot()` command, but we can also use it inside of our geometric object to add other features to our graphic, like `size = `. Additionally, we can set the label for our size legend by adding `size = "Family Size"` in the `labs()` command.
+
+```{r message=FALSE, warning=FALSE}
+employed_under_150K %>% 
+  filter(Occupation == "14: Economists") %>% 
+  ggplot(aes(x = Age,y= Earnings, color = Sex))+
+  geom_point(aes(size = FamilySize))+
+  labs(x="Age (Years)",y="Earnings (USD)", color = "Sex of respondent",  size = "Family Size", title = "Age vs. Median Earnings by Sex for Economists")
+```
+
+## Other ggplot2 Geometric Objects
+
+In the examples above we made scatter plots, histograms, and line plots, but we can make several other figures; here are just a few.
+
+<center>
+|Command| Type of Graph/Figure|
+|-------|--------------------|
+|`geom_dotplot()`|Creates a dot plot|
+|`geom_bar()`|Creates a bar chart|
+|`geom_jitter()`|Creates a scatter plot, but is useful for big data|
+|`geom_col()`|Creates a column plot|
+</center>
+
+***
+## Summary of ggplot2
+***
+In this section you learned some of the ggplot2 commands necessary to create figures to visually explore your data.  There are other commands inside of ggplot2. You can read about them in the online book <a href="https://r4ds.had.co.nz/">R for Data Science</a>. Additionally, if you want to explore some of the packages you can add on to ggplot2 to create a variety of data visualizations, <a href="http://exts.ggplot2.tidyverse.org/gallery/"> here is a great place to start.</a>
+
+***
+# How the Course Director troubleshoots code
+***
+It is frustrating when your code does not run.  The first thing I do is copy the error message into Google and see what I can find on the internet.  99% of the time the first link solves the issue.
+
+It is frustrating not knowing the command to use.  When I want to do something different that I do not know how to do, I Google how do you do __________ with tidyverse or ggplot2.
+
+***
+# Further exploration of this data set
+***
+
+If you would like to continue exploring the data set used in this example you can do so <a href="http://3.135.229.13:3838/"> HERE.</a>
+

@@ -1,0 +1,80 @@
+---
+title: "Ex. 4.1: Additional ggplot2 figures"
+subtitle: "Column Chart"
+author: ""
+output:
+  xaringan::moon_reader:
+    seal: TRUE
+    lib_dir: libs
+    css: [default, hygge, ninjutsu]
+    nature:
+      ratio: 16:9
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+
+
+```{r, include = F}
+options(knitr.duplicate.label = "allow")
+knitr::opts_chunk$set(fig.width = 6, message = FALSE, warning = FALSE, comment = "", cache = F)
+library(flipbookr)
+library(tidyverse)
+load("current_image.Rdata")
+```
+
+
+```{r, echo = F, eval = TRUE , message = F, warning = F}
+xaringanExtra::use_share_again()
+```
+
+
+```{r the_chunk, include = F}
+employed_under_150K %>%
+  group_by(Education, Sex) %>%
+  summarize(mean_earnings = mean(Earnings)) %>%
+  mutate(Education = factor(Education, 
+                            levels = c("Less than HS", 
+                                       "HS Graduate", 
+                                       "Some College/Associates", 
+                                       "Bachelors", 
+                                       "Masters", 
+                                       "PhD/MD/JD"))) %>% 
+  ggplot() + 
+  aes(x = mean_earnings, y = Education) + 
+  aes(fill = Sex) + 
+  geom_col(position = "dodge") + 
+  labs(x = "Mean Earnings (USD)") + 
+  labs(y = "Count") + 
+  labs(title = "Column Chart of Mean Earnings by Education",
+       subtitle = "Divided by Share of Each Sex") + 
+  scale_x_continuous(labels = scales::comma)
+```
+
+`r chunk_reveal(chunk_name = "the_chunk", break_type = "auto", ...)`
+
+
+
+```{css, eval = TRUE, echo = FALSE}
+.remark-code{line-height: 1.5; font-size: 90%}
+
+@media print {
+  .has-continuation {
+    display: block;
+  }
+}
+
+code.r.hljs.remark-code{
+  position: relative;
+  overflow-x: hidden;
+}
+
+
+code.r.hljs.remark-code:hover{
+  overflow-x:visible;
+  width: 500px;
+  border-style: solid;
+}
+```
+

@@ -1,0 +1,82 @@
+---
+title: "Ex. 1.1: Data Exploration"
+subtitle: "Tailoring Your Data with tidyverse"
+author: ""
+output:
+  xaringan::moon_reader:
+    seal: TRUE
+    lib_dir: libs
+    css: [default, hygge, ninjutsu]
+    nature:
+      ratio: 16:9
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+
+
+```{r, include = F}
+options(knitr.duplicate.label = "allow")
+knitr::opts_chunk$set(fig.width = 6, message = FALSE, warning = FALSE, comment = "", cache = F)
+library(flipbookr)
+library(tidyverse)
+load("current_image.Rdata")
+```
+
+
+```{r, echo = F, eval = TRUE , message = F, warning = F}
+xaringanExtra::use_share_again()
+```
+
+
+```{r the_chunk, include = F}
+employed_data = wage_data %>%
+## Here, we will filter out any entries of individuals with 
+## no occupation:
+  filter(Occupation!="53: Never Worked" & Earnings > 0)
+
+## Producing this:
+employed_data %>%
+## Using the mutate command, we will create a new column  
+## displaying earnings per member of each famil:; 
+  mutate(Earnings_per_member=Earnings/FamilySize) %>% 
+## And then select the columns we want to include in our output: 
+  select(Earnings, FamilySize, Earnings_per_member)
+
+employed_under_150K = employed_data %>% 
+## We can also use the filter command to only look at entries
+## reporting income under $150k, removing outliers:
+  filter(Earnings<150000)
+
+## Producing this:
+employed_under_150K
+
+```
+
+`r chunk_reveal(chunk_name = "the_chunk", break_type = "auto", ...)`
+
+
+
+```{css, eval = TRUE, echo = FALSE}
+.remark-code{line-height: 1.5; font-size: 90%}
+
+@media print {
+  .has-continuation {
+    display: block;
+  }
+}
+
+code.r.hljs.remark-code{
+  position: relative;
+  overflow-x: hidden;
+}
+
+
+code.r.hljs.remark-code:hover{
+  overflow-x:visible;
+  width: 500px;
+  border-style: solid;
+}
+```
+

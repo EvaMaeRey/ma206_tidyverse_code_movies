@@ -1,0 +1,175 @@
+---
+title: "Embedded Flipbook"
+author: Me, an Rmarkdown writer and flipbook builder
+output: html_document
+---
+
+This template aimed at doing the following:  preparing a flipbook from within an .Rmd source file and then *embedded* it in the resulting html.  Narrative might be interspersed between the code-movies.  
+
+## Steps:
+
+#### 1. Write a code chunk. 
+#### 2. Use embed_flipbook() to create chunk's flipbook and embed in your html_document 
+
+## More detail about step 2:
+
+#### 2.a. save that chunk code out as text and the current global environment
+#### 2.b. create an .Rmd file that will bring in code and global environment
+#### 2.c. render that file to an html (xaringan slide show)
+#### 2.d. embed the flipbook upon knitting your working .Rmd to .html
+
+
+```{r setup, include = F}
+# This is the recommended set up for flipbooks
+# you might think about setting cache to TRUE as you gain practice --- building flipbooks from scratch can be time consuming
+options(knitr.duplicate.label = "allow")
+knitr::opts_chunk$set(fig.width = 6, message = FALSE, warning = FALSE, comment = "", cache = F, error = F)
+library(flipbookr)
+library(tidyverse)
+```
+
+
+
+# A1. Here is some code (I'm naming the chunk "my_code"): 
+
+You might think about setting this code chunk's option include = F, to hide the code and output.
+
+```{r my_code}
+cars %>% 
+  ggplot() +
+  aes(x = dist) +
+  aes(y = speed) +
+  geom_point() -> 
+g
+```
+
+
+
+# A2. Let's get a walk-through using embed_flipbook():
+
+You might want to set the code chunk options to echo = F, unless you are demoing embed_flibook(). 
+
+```{r}
+embed_flipbook(chunk_name = "my_code", 
+                       use_share_again = T,
+                       font_size = 120)
+```
+
+---
+
+# B1. Here is some more code; I'm named the code chunk "fine_tuning":
+
+You might just set the code chunk options include = F.
+
+```{r fine_tuning, fig.show='hide'}
+g + 
+  theme_minimal(base_size = 12) +
+  aes(size = dist) +
+  aes(color = dist) +
+  scale_color_viridis_c() + 
+  geom_smooth() +
+  theme(legend.position = 
+          "none") +
+  labs(x = "Distance") +
+  labs(y = "Speed") + #BREAK
+  labs(title = "Cool plot!") +
+  theme(plot.title.position = 
+          "plot") #BREAK
+```
+
+# B2. Let's look at the build created from  embed_flipbook. View below or view [in new tab](fine_tuning.html){target="_blank"}
+
+You might set the code chunk option echo = F
+
+```{r}
+embed_flipbook(chunk_name = "fine_tuning", 
+               use_share_again = T, 
+               use_embed_xaringan = T,
+               font_size = 100,
+               title_page = T,
+               title = "How to Style your Plot",
+               subtitle = "Thematic Adjustments",
+               author = "Reynolds Lab",
+               break_type = "user")
+```
+
+
+
+# C. Okay python!  Just kidding.  This doesn't work yet.
+
+---
+
+
+
+```{r, eval = F}
+embed_flipbook("hello_python",
+               lang = "python")
+```
+
+
+# D. Text flipbook subject to change:
+
+```{r}
+embed_text_flipbook("hi there good seeing you", 
+                    title = "greetings", 
+                    sep = " ",
+                    use_embed_xaringan = T)
+```
+
+---
+# E. Tutorial Code Chunk
+
+```{r message=FALSE, warning=FALSE, include = F}
+wage_data <- read_csv("wage_data.csv")
+```
+
+```{r include = F}
+employed_data = wage_data %>%
+  filter(Occupation!="53: Never Worked" & Earnings > 0)
+```
+
+```{r message=FALSE, warning=FALSE, include = F}
+employed_under_150K = employed_data %>% 
+  filter(Earnings<150000)
+```
+
+```{r conner_task, include = F}
+employed_under_150K %>% 
+  group_by(Age, Sex) %>% 
+  summarise(Median = median(Earnings)) %>% 
+  ggplot(aes(x = Age, y=Median)) +
+  geom_line() +
+  aes(color = Sex) +
+  labs(x="Age (Years)") +
+  labs(y="Earnings (USD)") +
+  labs(color = "Sex of respondent") +
+  labs(title = "Age vs. Median Earnings by Sex") +
+  scale_x_continuous(limits=c(0,100), 
+                     breaks=c(seq(from = 0,to = 100,by = 10))) +
+  scale_y_continuous(limits=c(0,70000), 
+                     breaks=c(10000, 30000, 50000))
+```
+
+```{r}
+embed_flipbook(chunk_name = "conner_task", 
+                       use_share_again = T,
+                       font_size = 90,
+                       widths = c(1,1),
+                       use_embed_xaringan = TRUE)
+```     
+
+
+
+
+
+
+
+```{css, eval = TRUE, echo = FALSE}
+.remark-code{line-height: 1.5; font-size: 80%}
+
+@media print {
+  .has-continuation {
+    display: block;
+  }
+}
+```
