@@ -3,23 +3,25 @@
     "path": "~/Dropbox/du_flipbookrs/MA206 Companion Guide/index.Rmd",
     "project_path": "index.Rmd",
     "type": "r_markdown",
-    "hash": "0",
+    "hash": "591478981",
     "contents": "",
     "dirty": false,
     "created": 1610469896611.0,
     "source_on_save": false,
     "relative_order": 1,
     "properties": {
-        "cursorPosition": "3,79",
-        "scrollLine": "0",
-        "last_setup_crc32": "2077FE4A541a0720"
+        "cursorPosition": "258,37",
+        "scrollLine": "256",
+        "last_setup_crc32": "2077FE4A541a0720",
+        "docOutlineVisible": "1",
+        "docOutlineSize": "255"
     },
     "folds": "",
-    "lastKnownWriteTime": 1610474948,
+    "lastKnownWriteTime": 1610475864,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1610474948996,
+    "last_content_update": 1610475864208,
     "read_only": false,
     "read_only_alternatives": []
 }

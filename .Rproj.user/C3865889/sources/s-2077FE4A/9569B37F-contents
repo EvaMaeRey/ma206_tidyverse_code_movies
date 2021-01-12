@@ -140,7 +140,7 @@ employed_under_150K %>%
   geom_smooth(color = "black")
 ```
 
-```{r, echo = F}
+```{r, echo = F, eval = F}
 embed_flipbook(chunk_name = "ex2.2", 
                        use_share_again = T,
                        font_size = 90,
@@ -251,12 +251,12 @@ embed_flipbook(chunk_name = "ex3",
 
 ### Introduced in this example:
 
-#### geom_col(), geom_bar(), geom_dotplot(), group_by(), factor(), c() 
+#### `geom_col()`, `geom_bar()`, `geom_dotplot()`, `group_by()`, `factor()`, `c()` 
 ####     {.tabset .tabset-fade .tabset-pills}
 
 ##### Ex. 4.1: Column Chart
 
-```{r ex4.1, include = F}
+```{r ex4.1, echo = F, fig.height=3.5}
 employed_under_150K %>%
   group_by(Education, Sex) %>%
   summarize(mean_earnings = mean(Earnings)) %>%
