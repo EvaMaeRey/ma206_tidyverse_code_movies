@@ -18,7 +18,7 @@ library(gapminder)
 
 ---
 
-#### "MA 206 Code Movies" is a companion guide to the MA206 tidyverse tutorial. Specifically, it dissects the Tutorial's and presents them *step-by-step*. 
+#### "MA 206 Code Movies" is a companion guide to the MA206 tidyverse tutorial. It dissects the Tutorial's code pipelines and presents them *step-by-step*. 
 
 #### For discussion of the example data and functions, refer back to the MA206 Tidyverse Tutorial guide.
 
@@ -36,27 +36,33 @@ library(gapminder)
 #### `summarise()` summarize data (sometimes used with `group_by()`)
 ####    
 
-#### First, we use the *read_csv()* command to bring our data into RStudio, then look step-by-step look at what the *filter()*, *select()*, and *mutate()* commands can do in a pipeline:
+#### First, we use the *read_csv()* command to bring our data into RStudio, then look step-by-step look at what the *filter()*, *mutate()*, and *select()* commands can do in a pipeline:
 
-```{r ex1, include=FALSE}
+```{r ex1.1, include=FALSE}
 read_csv("wage_data.csv") ->
   wage_data
 
 wage_data %>%
+## First, we will filter out anyone who has never 
+## worked and anyone who reported no earnings.
   filter(Occupation != "53: Never Worked" & 
            Earnings > 0) %>%  
+## Next, we will create a new variable showing earnings
+## per family member.
   mutate(Earnings_per_member = Earnings / FamilySize) %>% 
+## We then choose a few specific columns from our 
+## dataset to look at.
   select(Earnings, Earnings_per_member, Sex, Age, Education) %>% 
   filter(Earnings< 150000) ->
 employed_under_150K
 ```
 
 ```{r, echo=FALSE}
-embed_flipbook(chunk_name = "ex1", 
+embed_flipbook(chunk_name = "ex1.1", 
                        use_share_again = T,
                        font_size = 90,
                        title_page = T,
-                       title = "Ex. 1: Data Exploration",
+                       title = "Ex. 1.1: Data Exploration",
                        subtitle = "Tailoring Your Data with tidyverse",
                        widths = c(1,1),
                        use_embed_xaringan = T)
@@ -86,6 +92,17 @@ mean_earnings_by_sex
 mean_earnings_by_sex
 ```
 
+```{r, echo=FALSE}
+embed_flipbook(chunk_name = "summarize", 
+                       use_share_again = T,
+                       font_size = 90,
+                       title_page = T,
+                       title = "Ex. 1.2: Data Exploration",
+                       subtitle = "Using summarize()",
+                       widths = c(1,1),
+                       use_embed_xaringan = T)
+```
+
 ---
 
 ###      
@@ -95,7 +112,7 @@ mean_earnings_by_sex
 
 ### Introduced in this example:
 
-#### ggplot(), aes(), labs(), group_by(), facet_wrap(), geom_histogram(), geom_point(), geom_smooth(), geom_line(), geom_boxplot()
+#### `ggplot()`, `aes()`, `labs()`, `group_by()`, `facet_wrap()`, `geom_histogram()`, `geom_point()`, `geom_smooth()`, `geom_line()`, `geom_boxplot()`
 ####      {.tabset .tabset-fade .tabset-pills}
 
 ##### Ex. 2.1: Histogram
@@ -140,7 +157,7 @@ employed_under_150K %>%
   geom_smooth(color = "black")
 ```
 
-```{r, echo = F, eval = F}
+```{r, echo = F, eval = T}
 embed_flipbook(chunk_name = "ex2.2", 
                        use_share_again = T,
                        font_size = 90,
@@ -199,7 +216,7 @@ embed_flipbook(chunk_name = "ex2.3",
 
 ### Introduced in this example:
 
-#### labs() *[additional uses]*, scale_x_continuous(), scale_y_continuous(), limits(), breaks(), theme_X()
+#### `labs()` *[additional uses]*, `scale_x_continuous()`, `scale_y_continuous()`, `limits()`, `breaks()`, `theme_X()`
 ####    
 
 ```{r ex3, include = F}
@@ -252,6 +269,7 @@ embed_flipbook(chunk_name = "ex3",
 ### Introduced in this example:
 
 #### `geom_col()`, `geom_bar()`, `geom_dotplot()`, `group_by()`, `factor()`, `c()` 
+#### These demos are not included in the Tidyverse Tutorial, but build on the extra ggplot2 uses mentioned at the end of the section. Additionally, the *Dot Plot* example utilizes 8gapminder* data different from that used in all previous examples.
 ####     {.tabset .tabset-fade .tabset-pills}
 
 ##### Ex. 4.1: Column Chart
@@ -315,6 +333,7 @@ embed_flipbook(chunk_name = "ex4.2",
 ``` 
 
 ##### Ex. 4.3: Dot Plot
+
 
 ```{r ex4.3, include = F}
 library(gapminder)

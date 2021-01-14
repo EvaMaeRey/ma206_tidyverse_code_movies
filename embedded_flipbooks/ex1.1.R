@@ -1,21 +1,16 @@
-employed_data = wage_data %>%
-## Here, we will filter out any entries of individuals with 
-## no occupation:
-  filter(Occupation!="53: Never Worked" & Earnings > 0)
+read_csv("wage_data.csv") ->
+  wage_data
 
-## Producing this:
-employed_data %>%
-## Using the mutate command, we will create a new column  
-## displaying earnings per member of each famil:; 
-  mutate(Earnings_per_member=Earnings/FamilySize) %>% 
-## And then select the columns we want to include in our output: 
-  select(Earnings, FamilySize, Earnings_per_member)
-
-employed_under_150K = employed_data %>% 
-## We can also use the filter command to only look at entries
-## reporting income under $150k, removing outliers:
-  filter(Earnings<150000)
-
-## Producing this:
+wage_data %>%
+## First, we will filter out anyone who has never 
+## worked and anyone who reported no earnings.
+  filter(Occupation != "53: Never Worked" & 
+           Earnings > 0) %>%  
+## Next, we will create a new variable showing earnings
+## per family member.
+  mutate(Earnings_per_member = Earnings / FamilySize) %>% 
+## We then choose a few specific columns from our 
+## dataset to look at.
+  select(Earnings, Earnings_per_member, Sex, Age, Education) %>% 
+  filter(Earnings< 150000) ->
 employed_under_150K
-

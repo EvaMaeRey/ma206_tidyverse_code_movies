@@ -1553,8 +1553,8 @@ src: url(data:application/x-font-truetype;base64,AAEAAAARAQAABAAQR0RFRgs+Cz8AAjw
 <!-- Don't indent these lines or it will mess pre blocks indentation --> 
 <div id="main">
 <hr />
-<div id="ma-206-code-movies-is-a-companion-guide-to-the-ma206-tidyverse-tutorial.-specifically-it-dissects-the-tutorials-and-presents-them-step-by-step." class="section level4">
-<h4>“MA 206 Code Movies” is a companion guide to the MA206 tidyverse tutorial. Specifically, it dissects the Tutorial’s and presents them <em>step-by-step</em>.</h4>
+<div id="ma-206-code-movies-is-a-companion-guide-to-the-ma206-tidyverse-tutorial.-it-dissects-the-tutorials-code-pipelines-and-presents-them-step-by-step." class="section level4">
+<h4>“MA 206 Code Movies” is a companion guide to the MA206 tidyverse tutorial. It dissects the Tutorial’s code pipelines and presents them <em>step-by-step</em>.</h4>
 </div>
 <div id="for-discussion-of-the-example-data-and-functions-refer-back-to-the-ma206-tidyverse-tutorial-guide." class="section level4">
 <h4>For discussion of the example data and functions, refer back to the MA206 Tidyverse Tutorial guide.</h4>
@@ -1586,15 +1586,19 @@ src: url(data:application/x-font-truetype;base64,AAEAAAARAQAABAAQR0RFRgs+Cz8AAjw
 <div id="section-1" class="section level4">
 <h4></h4>
 </div>
-<div id="first-we-use-the-read_csv-command-to-bring-our-data-into-rstudio-then-look-step-by-step-look-at-what-the-filter-select-and-mutate-commands-can-do-in-a-pipeline" class="section level4">
-<h4>First, we use the <em>read_csv()</em> command to bring our data into RStudio, then look step-by-step look at what the <em>filter()</em>, <em>select()</em>, and <em>mutate()</em> commands can do in a pipeline:</h4>
+<div id="first-we-use-the-read_csv-command-to-bring-our-data-into-rstudio-then-look-step-by-step-look-at-what-the-filter-mutate-and-select-commands-can-do-in-a-pipeline" class="section level4">
+<h4>First, we use the <em>read_csv()</em> command to bring our data into RStudio, then look step-by-step look at what the <em>filter()</em>, <em>mutate()</em>, and <em>select()</em> commands can do in a pipeline:</h4>
 <div class="shareagain" style="min-width:300px;margin:1em auto;">
-<iframe src="embedded_flipbooks/ex1_embed.html" width="1600" height="900" style="border:2px solid currentColor;" loading="lazy" allowfullscreen></iframe>
+<iframe src="embedded_flipbooks/ex1.1_embed.html" width="1600" height="900" style="border:2px solid currentColor;" loading="lazy" allowfullscreen></iframe>
 <script>fitvids('.shareagain', {players: 'iframe'});</script>
 </div>
 </div>
 <div id="we-can-also-use-the-summarize-command-to-create-new-variables-for-later-use.-here-we-use-it-to-identify-the-mean-earnings-of-our-sample-population" class="section level4">
 <h4>We can also use the <em>summarize()</em> command to create new variables for later use. Here, we use it to identify the mean earnings of our sample population:</h4>
+<div class="shareagain" style="min-width:300px;margin:1em auto;">
+<iframe src="embedded_flipbooks/summarize_embed.html" width="1600" height="900" style="border:2px solid currentColor;" loading="lazy" allowfullscreen></iframe>
+<script>fitvids('.shareagain', {players: 'iframe'});</script>
+</div>
 <hr />
 </div>
 </div>
@@ -1609,7 +1613,7 @@ src: url(data:application/x-font-truetype;base64,AAEAAAARAQAABAAQR0RFRgs+Cz8AAjw
 <div id="introduced-in-this-example-1" class="section level3">
 <h3>Introduced in this example:</h3>
 <div id="ggplot-aes-labs-group_by-facet_wrap-geom_histogram-geom_point-geom_smooth-geom_line-geom_boxplot" class="section level4">
-<h4>ggplot(), aes(), labs(), group_by(), facet_wrap(), geom_histogram(), geom_point(), geom_smooth(), geom_line(), geom_boxplot()</h4>
+<h4><code>ggplot()</code>, <code>aes()</code>, <code>labs()</code>, <code>group_by()</code>, <code>facet_wrap()</code>, <code>geom_histogram()</code>, <code>geom_point()</code>, <code>geom_smooth()</code>, <code>geom_line()</code>, <code>geom_boxplot()</code></h4>
 </div>
 <div id="section-3" class="section level4 tabset tabset-fade tabset-pills">
 <h4></h4>
@@ -1623,6 +1627,10 @@ src: url(data:application/x-font-truetype;base64,AAEAAAARAQAABAAQR0RFRgs+Cz8AAjw
 </div>
 <div id="ex.-2.2-scatterplot" class="section level5">
 <h5>Ex. 2.2: Scatterplot</h5>
+<div class="shareagain" style="min-width:300px;margin:1em auto;">
+<iframe src="embedded_flipbooks/ex2.2_embed.html" width="1600" height="900" style="border:2px solid currentColor;" loading="lazy" allowfullscreen></iframe>
+<script>fitvids('.shareagain', {players: 'iframe'});</script>
+</div>
 </div>
 <div id="ex.-2.3-line-plot" class="section level5">
 <h5>Ex. 2.3: Line Plot</h5>
@@ -1645,7 +1653,7 @@ src: url(data:application/x-font-truetype;base64,AAEAAAARAQAABAAQR0RFRgs+Cz8AAjw
 <div id="introduced-in-this-example-2" class="section level3">
 <h3>Introduced in this example:</h3>
 <div id="labs-additional-uses-scale_x_continuous-scale_y_continuous-limits-breaks-theme_x" class="section level4">
-<h4>labs() <em>[additional uses]</em>, scale_x_continuous(), scale_y_continuous(), limits(), breaks(), theme_X()</h4>
+<h4><code>labs()</code> <em>[additional uses]</em>, <code>scale_x_continuous()</code>, <code>scale_y_continuous()</code>, <code>limits()</code>, <code>breaks()</code>, <code>theme_X()</code></h4>
 </div>
 <div id="section-5" class="section level4">
 <h4></h4>
@@ -1668,6 +1676,9 @@ src: url(data:application/x-font-truetype;base64,AAEAAAARAQAABAAQR0RFRgs+Cz8AAjw
 <h3>Introduced in this example:</h3>
 <div id="geom_col-geom_bar-geom_dotplot-group_by-factor-c" class="section level4">
 <h4><code>geom_col()</code>, <code>geom_bar()</code>, <code>geom_dotplot()</code>, <code>group_by()</code>, <code>factor()</code>, <code>c()</code></h4>
+</div>
+<div id="these-demos-are-not-included-in-the-tidyverse-tutorial-but-build-on-the-extra-ggplot2-uses-mentioned-at-the-end-of-the-section.-additionally-the-dot-plot-example-utilizes-8gapminder-data-different-from-that-used-in-all-previous-examples." class="section level4">
+<h4>These demos are not included in the Tidyverse Tutorial, but build on the extra ggplot2 uses mentioned at the end of the section. Additionally, the <em>Dot Plot</em> example utilizes 8gapminder* data different from that used in all previous examples.</h4>
 </div>
 <div id="section-7" class="section level4 tabset tabset-fade tabset-pills">
 <h4></h4>

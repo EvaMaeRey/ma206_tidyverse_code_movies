@@ -1,6 +1,6 @@
 ---
-title: "Ex. 1.1: Data Exploration"
-subtitle: "Tailoring Your Data with tidyverse"
+title: "Ex. 1.2: Data Exploration"
+subtitle: "Using summarize()"
 author: ""
 output:
   xaringan::moon_reader:
@@ -31,22 +31,25 @@ xaringanExtra::use_share_again()
 
 
 ```{r the_chunk, include = F}
-read_csv("wage_data.csv") ->
-  wage_data
+wage_data %>%
+  filter(Occupation != "53: Never Worked" & 
+           Earnings > 0) %>% 
+  summarise(mean(Earnings)) %>% 
+  as.numeric() ->
+mean_earnings
+
+#printing saved object
+mean_earnings
 
 wage_data %>%
-## First, we will filter out anyone who has never 
-## worked and anyone who reported no earnings.
   filter(Occupation != "53: Never Worked" & 
-           Earnings > 0) %>%  
-## Next, we will create a new variable showing earnings
-## per family member.
-  mutate(Earnings_per_member = Earnings / FamilySize) %>% 
-## We then choose a few specific columns from our 
-## dataset to look at.
-  select(Earnings, Earnings_per_member, Sex, Age, Education) %>% 
-  filter(Earnings< 150000) ->
-employed_under_150K
+           Earnings > 0) %>% 
+  group_by(Sex) %>% 
+  summarise(mean = mean(Earnings),
+            count = n()) ->
+mean_earnings_by_sex
+
+mean_earnings_by_sex
 ```
 
 `r chunk_reveal(chunk_name = "the_chunk", break_type = "auto", ...)`
