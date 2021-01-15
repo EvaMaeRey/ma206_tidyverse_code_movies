@@ -43,19 +43,20 @@ read_csv("wage_data.csv") ->
   wage_data
 
 wage_data %>%
-## First, we will filter out anyone who has never 
-## worked and anyone who reported no earnings.
+## filter out anyone who has never 
+## worked and anyone who reported no earnings
   filter(Occupation != "53: Never Worked" & 
            Earnings > 0) %>%  
-## Next, we will create a new variable showing earnings
-## per family member.
+## create a new variable showing earnings
+## per family member
   mutate(Earnings_per_member = Earnings / FamilySize) %>% 
-## We then choose a few specific columns from our 
-## dataset to look at.
+## keep specific columns 
   select(Earnings, Earnings_per_member, Sex, Age, Education) %>% 
   filter(Earnings< 150000) ->
 employed_under_150K
 ```
+
+View code-movie [in a new tab](embedded_flipbooks/ex1.1_embed.html){target="_blank"}
 
 ```{r, echo=FALSE}
 embed_flipbook(chunk_name = "ex1.1", 
@@ -92,6 +93,8 @@ mean_earnings_by_sex
 mean_earnings_by_sex
 ```
 
+View code-movie [in a new tab](embedded_flipbooks/summarize_embed.html){target="_blank"}
+
 ```{r, echo=FALSE}
 embed_flipbook(chunk_name = "summarize", 
                        use_share_again = T,
@@ -116,7 +119,7 @@ embed_flipbook(chunk_name = "summarize",
 ####      {.tabset .tabset-fade .tabset-pills}
 
 ##### Ex. 2.1: Histogram
-```{r ex2.1, include = F}
+```{r ex2.1, echo = F, fig.height=3.5}
 employed_under_150K %>%
   ggplot() + 
   aes(x = Earnings) +
@@ -130,7 +133,7 @@ employed_under_150K %>%
 
 View code-movie [in a new tab](embedded_flipbooks/ex2.1_embed.html){target="_blank"}
 
-```{r, echo = F}
+```{r, echo = F, fig.height=3.5}
 embed_flipbook(chunk_name = "ex2.1", 
                        use_share_again = T,
                        font_size = 90,
@@ -143,7 +146,7 @@ embed_flipbook(chunk_name = "ex2.1",
 
 ##### Ex. 2.2: Scatterplot
 
-```{r ex2.2, include = F}
+```{r ex2.2, echo = F, fig.height=3.5}
 employed_under_150K %>%
   ggplot() + 
   aes(x = Age) +
@@ -156,6 +159,8 @@ employed_under_150K %>%
   facet_wrap(facets = vars(Sex)) +
   geom_smooth(color = "black")
 ```
+
+View code-movie [in a new tab](embedded_flipbooks/ex2.2_embed.html){target="_blank"}
 
 ```{r, echo = F, eval = T}
 embed_flipbook(chunk_name = "ex2.2", 
@@ -170,7 +175,7 @@ embed_flipbook(chunk_name = "ex2.2",
 
 ##### Ex. 2.3: Line Plot
 
-```{r ex2.3, include = F}
+```{r ex2.3, echo = F, fig.height=3.5}
 employed_under_150K %>% 
   group_by(Age) %>% 
   summarise(Median = median(Earnings)) %>% 
@@ -194,6 +199,8 @@ employed_under_150K %>%
   labs(y="Earnings (USD)") +
   labs(title = "Age vs. Median Earnings by Sex")
 ```
+
+View code-movie [in a new tab](embedded_flipbooks/ex2.3_embed.html){target="_blank"}
 
 ```{r, echo = FALSE}
 embed_flipbook(chunk_name = "ex2.3", 
@@ -248,6 +255,8 @@ employed_under_150K %>%
   theme_classic()
 ```
 
+View code-movie [in a new tab](embedded_flipbooks/ex3_embed.html){target="_blank"}
+
 ```{r, echo = FALSE}
 embed_flipbook(chunk_name = "ex3", 
                        use_share_again = T,
@@ -296,6 +305,8 @@ employed_under_150K %>%
   scale_x_continuous(labels = scales::comma)
 ```
 
+View code-movie [in a new tab](embedded_flipbooks/ex4.1_embed.html){target="_blank"}
+
 ```{r, echo = F}
 embed_flipbook(chunk_name = "ex4.1", 
                        use_share_again = T,
@@ -308,7 +319,7 @@ embed_flipbook(chunk_name = "ex4.1",
 
 
 ##### Ex. 4.2: Bar Plot
-```{r ex4.2, include = F}
+```{r ex4.2, echo = F, fig.height=3.5}
 employed_under_150K %>%
   ggplot() + 
   aes(x = Sex) +
@@ -321,6 +332,8 @@ employed_under_150K %>%
   labs(y = "Count") + 
   labs(title = "Bar Plot of Total Earnings by Sex")
 ```
+
+View code-movie [in a new tab](embedded_flipbooks/ex4,2_embed.html){target="_blank"}
 
 ```{r, echo = F}
 embed_flipbook(chunk_name = "ex4.2", 
@@ -335,7 +348,7 @@ embed_flipbook(chunk_name = "ex4.2",
 ##### Ex. 4.3: Dot Plot
 
 
-```{r ex4.3, include = F}
+```{r ex4.3, echo = F, fig.height=3.5}
 library(gapminder)
 gapminder %>%  
   filter(year == 2002) %>%  
@@ -352,6 +365,8 @@ gapminder %>%
   facet_wrap(facets = vars(continent)) +
   theme(legend.position = "none")
 ```
+
+View code-movie [in a new tab](embedded_flipbooks/ex4.3_embed.html){target="_blank"}
 
 ```{r, echo=FALSE}
 embed_flipbook(chunk_name = "ex4.3", 

@@ -126,8 +126,8 @@ read_csv("wage_data.csv") -&gt;
   wage_data
 
 wage_data %&gt;%
-## First, we will filter out anyone who has never
-## worked and anyone who reported no earnings.
+## filter out anyone who has never
+## worked and anyone who reported no earnings
 * filter(Occupation != "53: Never Worked" &amp;
 *          Earnings &gt; 0)
 ```
@@ -165,12 +165,12 @@ read_csv("wage_data.csv") -&gt;
   wage_data
 
 wage_data %&gt;%
-## First, we will filter out anyone who has never
-## worked and anyone who reported no earnings.
+## filter out anyone who has never
+## worked and anyone who reported no earnings
   filter(Occupation != "53: Never Worked" &amp;
            Earnings &gt; 0) %&gt;%
-## Next, we will create a new variable showing earnings
-## per family member.
+## create a new variable showing earnings
+## per family member
 * mutate(Earnings_per_member = Earnings / FamilySize)
 ```
 ]
@@ -207,15 +207,14 @@ read_csv("wage_data.csv") -&gt;
   wage_data
 
 wage_data %&gt;%
-## First, we will filter out anyone who has never
-## worked and anyone who reported no earnings.
+## filter out anyone who has never
+## worked and anyone who reported no earnings
   filter(Occupation != "53: Never Worked" &amp;
            Earnings &gt; 0) %&gt;%
-## Next, we will create a new variable showing earnings
-## per family member.
+## create a new variable showing earnings
+## per family member
   mutate(Earnings_per_member = Earnings / FamilySize) %&gt;%
-## We then choose a few specific columns from our
-## dataset to look at.
+## keep specific columns
 * select(Earnings, Earnings_per_member, Sex, Age, Education)
 ```
 ]
@@ -251,15 +250,14 @@ read_csv("wage_data.csv") -&gt;
   wage_data
 
 wage_data %&gt;%
-## First, we will filter out anyone who has never
-## worked and anyone who reported no earnings.
+## filter out anyone who has never
+## worked and anyone who reported no earnings
   filter(Occupation != "53: Never Worked" &amp;
            Earnings &gt; 0) %&gt;%
-## Next, we will create a new variable showing earnings
-## per family member.
+## create a new variable showing earnings
+## per family member
   mutate(Earnings_per_member = Earnings / FamilySize) %&gt;%
-## We then choose a few specific columns from our
-## dataset to look at.
+## keep specific columns
   select(Earnings, Earnings_per_member, Sex, Age, Education) %&gt;%
 * filter(Earnings&lt; 150000)
 ```
@@ -296,15 +294,14 @@ read_csv("wage_data.csv") -&gt;
   wage_data
 
 wage_data %&gt;%
-## First, we will filter out anyone who has never
-## worked and anyone who reported no earnings.
+## filter out anyone who has never
+## worked and anyone who reported no earnings
   filter(Occupation != "53: Never Worked" &amp;
            Earnings &gt; 0) %&gt;%
-## Next, we will create a new variable showing earnings
-## per family member.
+## create a new variable showing earnings
+## per family member
   mutate(Earnings_per_member = Earnings / FamilySize) %&gt;%
-## We then choose a few specific columns from our
-## dataset to look at.
+## keep specific columns
   select(Earnings, Earnings_per_member, Sex, Age, Education) %&gt;%
   filter(Earnings&lt; 150000) -&gt;
 *employed_under_150K
