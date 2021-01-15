@@ -1,7 +1,7 @@
 ---
 title: "MA206 Code Movies"
 subtitle: "A companion for the MA206 Tidyverse Tutorial"
-author: "Code adapted from the MA206 Tidyverse Tutorial by Conner Surrency and Gina Reynolds"
+author: "MA206 Tidyverse Tutorial code adapted by Conner Surrency and Gina Reynolds"
 output: 
   rmdformats::readthedown:
     highlight: kate
@@ -22,10 +22,9 @@ library(gapminder)
 
 #### For discussion of the example data and functions, refer back to the MA206 Tidyverse Tutorial guide.
 
-###  
 ***
+
 ## 1. Using ***Tidyverse*** to Explore the Data
-***
 
 ### Introduced in this example:
 
@@ -146,7 +145,7 @@ embed_flipbook(chunk_name = "ex2.1",
 
 ##### Ex. 2.2: Scatterplot
 
-```{r ex2.2, echo = F, fig.height=3.5}
+```{r ex2.2, echo = F, fig.height=3.5, eval = T}
 employed_under_150K %>%
   ggplot() + 
   aes(x = Age) +
@@ -160,18 +159,19 @@ employed_under_150K %>%
   geom_smooth(color = "black")
 ```
 
-View code-movie [in a new tab](embedded_flipbooks/ex2.2_embed.html){target="_blank"}
 
 ```{r, echo = F, eval = T}
 embed_flipbook(chunk_name = "ex2.2", 
-                       use_share_again = T,
-                       font_size = 90,
-                       title_page = T,
-                       title = "Ex. 2.2: Building Your Plot",
+               use_share_again = T,
+               font_size = 90,
+               title_page = T,
+               title = "Ex. 2.2: Building Your Plot",
                        subtitle = "Scatterplot",
                        widths = c(1,1),
                        use_embed_xaringan = T)
 ```  
+
+View code-movie [in a new tab](embedded_flipbooks/ex2.2_embed.html){target="_blank"}
 
 ##### Ex. 2.3: Line Plot
 
@@ -216,15 +216,12 @@ embed_flipbook(chunk_name = "ex2.3",
 
 ---
 
-###      
-***
 ## 3. Using ***ggplot2*** functions for data visualization
-***
 
 ### Introduced in this example:
 
-#### `labs()` *[additional uses]*, `scale_x_continuous()`, `scale_y_continuous()`, `limits()`, `breaks()`, `theme_X()`
-####    
+#### `labs()`, `scale_x_continuous()`, `scale_y_continuous()`, `limits()`, `breaks()`, `theme_X()`
+
 
 ```{r ex3, include = F}
 employed_under_150K %>% 
@@ -273,9 +270,8 @@ embed_flipbook(chunk_name = "ex3",
 ###      
 ***
 ## 4. Additional ***ggplot2*** Geometric Objects
-***
 
-### Introduced in this example:
+### In this example:
 
 #### `geom_col()`, `geom_bar()`, `geom_dotplot()`, `group_by()`, `factor()`, `c()` 
 #### These demos are not included in the Tidyverse Tutorial, but build on the extra ggplot2 uses mentioned at the end of the section. Additionally, the *Dot Plot* example utilizes 8gapminder* data different from that used in all previous examples.
@@ -295,13 +291,16 @@ employed_under_150K %>%
                                        "Masters", 
                                        "PhD/MD/JD"))) %>% 
   ggplot() + 
-  aes(x = mean_earnings, y = Education) + 
-  aes(fill = Sex) + 
+  aes(x = mean_earnings) + 
+  aes(y = Education) + 
   geom_col(position = "dodge") + 
+  aes(fill = Sex) + 
   labs(x = "Mean Earnings (USD)") + 
   labs(y = "Count") + 
-  labs(title = "Column Chart of Mean Earnings by Education",
-       subtitle = "Divided by Share of Each Sex") + 
+  labs(title = 
+         "Column Chart of Mean Earnings by Education") + 
+  labs(subtitle = 
+         "Divided by Share of Each Sex") + 
   scale_x_continuous(labels = scales::comma)
 ```
 
@@ -378,14 +377,12 @@ embed_flipbook(chunk_name = "ex4.3",
                        use_embed_xaringan = T)
 ```
 
-***
 
-###    
+   
 ### END
 
  
 
----
 
 ```{css, eval = TRUE, echo = FALSE}
 .remark-code{line-height: 1.5; font-size: 80%}

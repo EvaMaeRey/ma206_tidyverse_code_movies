@@ -215,7 +215,7 @@ employed_under_150K %&gt;%
                                        "Masters",
                                        "PhD/MD/JD"))) %&gt;%
   ggplot() +
-* aes(x = mean_earnings, y = Education)
+* aes(x = mean_earnings)
 ```
 ]
  
@@ -241,8 +241,8 @@ employed_under_150K %&gt;%
                                        "Masters",
                                        "PhD/MD/JD"))) %&gt;%
   ggplot() +
-  aes(x = mean_earnings, y = Education) +
-* aes(fill = Sex)
+  aes(x = mean_earnings) +
+* aes(y = Education)
 ```
 ]
  
@@ -268,8 +268,8 @@ employed_under_150K %&gt;%
                                        "Masters",
                                        "PhD/MD/JD"))) %&gt;%
   ggplot() +
-  aes(x = mean_earnings, y = Education) +
-  aes(fill = Sex) +
+  aes(x = mean_earnings) +
+  aes(y = Education) +
 * geom_col(position = "dodge")
 ```
 ]
@@ -296,10 +296,10 @@ employed_under_150K %&gt;%
                                        "Masters",
                                        "PhD/MD/JD"))) %&gt;%
   ggplot() +
-  aes(x = mean_earnings, y = Education) +
-  aes(fill = Sex) +
+  aes(x = mean_earnings) +
+  aes(y = Education) +
   geom_col(position = "dodge") +
-* labs(x = "Mean Earnings (USD)")
+* aes(fill = Sex)
 ```
 ]
  
@@ -325,11 +325,11 @@ employed_under_150K %&gt;%
                                        "Masters",
                                        "PhD/MD/JD"))) %&gt;%
   ggplot() +
-  aes(x = mean_earnings, y = Education) +
-  aes(fill = Sex) +
+  aes(x = mean_earnings) +
+  aes(y = Education) +
   geom_col(position = "dodge") +
-  labs(x = "Mean Earnings (USD)") +
-* labs(y = "Count")
+  aes(fill = Sex) +
+* labs(x = "Mean Earnings (USD)")
 ```
 ]
  
@@ -355,13 +355,12 @@ employed_under_150K %&gt;%
                                        "Masters",
                                        "PhD/MD/JD"))) %&gt;%
   ggplot() +
-  aes(x = mean_earnings, y = Education) +
-  aes(fill = Sex) +
+  aes(x = mean_earnings) +
+  aes(y = Education) +
   geom_col(position = "dodge") +
+  aes(fill = Sex) +
   labs(x = "Mean Earnings (USD)") +
-  labs(y = "Count") +
-* labs(title = "Column Chart of Mean Earnings by Education",
-*      subtitle = "Divided by Share of Each Sex")
+* labs(y = "Count")
 ```
 ]
  
@@ -387,19 +386,90 @@ employed_under_150K %&gt;%
                                        "Masters",
                                        "PhD/MD/JD"))) %&gt;%
   ggplot() +
-  aes(x = mean_earnings, y = Education) +
-  aes(fill = Sex) +
+  aes(x = mean_earnings) +
+  aes(y = Education) +
   geom_col(position = "dodge") +
+  aes(fill = Sex) +
   labs(x = "Mean Earnings (USD)") +
   labs(y = "Count") +
-  labs(title = "Column Chart of Mean Earnings by Education",
-       subtitle = "Divided by Share of Each Sex") +
-* scale_x_continuous(labels = scales::comma)
+* labs(title =
+*        "Column Chart of Mean Earnings by Education")
 ```
 ]
  
 .panel2-the_chunk-auto[
 &lt;img src="ex4.1_embed_files/figure-html/the_chunk_auto_12_output-1.png" width="576" /&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-the_chunk-auto[
+
+```r
+employed_under_150K %&gt;%
+  group_by(Education, Sex) %&gt;%
+  summarize(mean_earnings = mean(Earnings)) %&gt;%
+  mutate(Education = factor(Education,
+                            levels = c("Less than HS",
+                                       "HS Graduate",
+                                       "Some College/Associates",
+                                       "Bachelors",
+                                       "Masters",
+                                       "PhD/MD/JD"))) %&gt;%
+  ggplot() +
+  aes(x = mean_earnings) +
+  aes(y = Education) +
+  geom_col(position = "dodge") +
+  aes(fill = Sex) +
+  labs(x = "Mean Earnings (USD)") +
+  labs(y = "Count") +
+  labs(title =
+         "Column Chart of Mean Earnings by Education") +
+* labs(subtitle =
+*        "Divided by Share of Each Sex")
+```
+]
+ 
+.panel2-the_chunk-auto[
+&lt;img src="ex4.1_embed_files/figure-html/the_chunk_auto_13_output-1.png" width="576" /&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-the_chunk-auto[
+
+```r
+employed_under_150K %&gt;%
+  group_by(Education, Sex) %&gt;%
+  summarize(mean_earnings = mean(Earnings)) %&gt;%
+  mutate(Education = factor(Education,
+                            levels = c("Less than HS",
+                                       "HS Graduate",
+                                       "Some College/Associates",
+                                       "Bachelors",
+                                       "Masters",
+                                       "PhD/MD/JD"))) %&gt;%
+  ggplot() +
+  aes(x = mean_earnings) +
+  aes(y = Education) +
+  geom_col(position = "dodge") +
+  aes(fill = Sex) +
+  labs(x = "Mean Earnings (USD)") +
+  labs(y = "Count") +
+  labs(title =
+         "Column Chart of Mean Earnings by Education") +
+  labs(subtitle =
+         "Divided by Share of Each Sex") +
+* scale_x_continuous(labels = scales::comma)
+```
+]
+ 
+.panel2-the_chunk-auto[
+&lt;img src="ex4.1_embed_files/figure-html/the_chunk_auto_14_output-1.png" width="576" /&gt;
 ]
 
 &lt;style&gt;

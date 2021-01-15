@@ -9,11 +9,14 @@ employed_under_150K %>%
                                        "Masters", 
                                        "PhD/MD/JD"))) %>% 
   ggplot() + 
-  aes(x = mean_earnings, y = Education) + 
-  aes(fill = Sex) + 
+  aes(x = mean_earnings) + 
+  aes(y = Education) + 
   geom_col(position = "dodge") + 
+  aes(fill = Sex) + 
   labs(x = "Mean Earnings (USD)") + 
   labs(y = "Count") + 
-  labs(title = "Column Chart of Mean Earnings by Education",
-       subtitle = "Divided by Share of Each Sex") + 
+  labs(title = 
+         "Column Chart of Mean Earnings by Education") + 
+  labs(subtitle = 
+         "Divided by Share of Each Sex") + 
   scale_x_continuous(labels = scales::comma)
