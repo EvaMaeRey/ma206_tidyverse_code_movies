@@ -36,345 +36,7 @@ class: center, middle, inverse, title-slide
 count: false
  
 
-.panel1-the_chunk-auto[
-
-```r
-*employed_under_150K
-```
-]
- 
-.panel2-the_chunk-auto[
-
-```
-# A tibble: 80,635 x 5
-   Earnings Earnings_per_member Sex     Age Education              
-      &lt;dbl&gt;               &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;                  
- 1     8000               1600  F        20 Less than HS           
- 2     4000                800  M        16 Less than HS           
- 3    17350               8675  M        27 Less than HS           
- 4    12000               6000  M        24 Less than HS           
- 5    25480              25480  M        62 Bachelors              
- 6     6000               1000  F        53 Bachelors              
- 7    70200              11700  M        52 Bachelors              
- 8    10520               1753. F        16 Less than HS           
- 9    46000              11500  F        31 Some College/Associates
-10    40000              40000  M        37 Less than HS           
-# … with 80,625 more rows
-```
-]
-
----
-count: false
- 
-
-.panel1-the_chunk-auto[
-
-```r
-employed_under_150K %&gt;%
-* group_by(Age,
-*          Sex)
-```
-]
- 
-.panel2-the_chunk-auto[
-
-```
-# A tibble: 80,635 x 5
-# Groups:   Age, Sex [134]
-   Earnings Earnings_per_member Sex     Age Education              
-      &lt;dbl&gt;               &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;                  
- 1     8000               1600  F        20 Less than HS           
- 2     4000                800  M        16 Less than HS           
- 3    17350               8675  M        27 Less than HS           
- 4    12000               6000  M        24 Less than HS           
- 5    25480              25480  M        62 Bachelors              
- 6     6000               1000  F        53 Bachelors              
- 7    70200              11700  M        52 Bachelors              
- 8    10520               1753. F        16 Less than HS           
- 9    46000              11500  F        31 Some College/Associates
-10    40000              40000  M        37 Less than HS           
-# … with 80,625 more rows
-```
-]
-
----
-count: false
- 
-
-.panel1-the_chunk-auto[
-
-```r
-employed_under_150K %&gt;%
-  group_by(Age,
-           Sex) %&gt;%
-* summarise(Median = median(Earnings))
-```
-]
- 
-.panel2-the_chunk-auto[
-
-```
-# A tibble: 134 x 3
-# Groups:   Age [67]
-     Age Sex   Median
-   &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;
- 1    15 F      1500 
- 2    15 M      1500 
- 3    16 F      2000 
- 4    16 M      2000 
- 5    17 F      2880 
- 6    17 M      3200 
- 7    18 F      4600 
- 8    18 M      5000 
- 9    19 F      7626.
-10    19 M     10000 
-# … with 124 more rows
-```
-]
-
----
-count: false
- 
-
-.panel1-the_chunk-auto[
-
-```r
-employed_under_150K %&gt;%
-  group_by(Age,
-           Sex) %&gt;%
-  summarise(Median = median(Earnings)) %&gt;%
-* ggplot()
-```
-]
- 
-.panel2-the_chunk-auto[
-&lt;img src="ex3_embed_files/figure-html/the_chunk_auto_04_output-1.png" width="576" /&gt;
-]
-
----
-count: false
- 
-
-.panel1-the_chunk-auto[
-
-```r
-employed_under_150K %&gt;%
-  group_by(Age,
-           Sex) %&gt;%
-  summarise(Median = median(Earnings)) %&gt;%
-  ggplot() +
-* aes(x = Age)
-```
-]
- 
-.panel2-the_chunk-auto[
-&lt;img src="ex3_embed_files/figure-html/the_chunk_auto_05_output-1.png" width="576" /&gt;
-]
-
----
-count: false
- 
-
-.panel1-the_chunk-auto[
-
-```r
-employed_under_150K %&gt;%
-  group_by(Age,
-           Sex) %&gt;%
-  summarise(Median = median(Earnings)) %&gt;%
-  ggplot() +
-  aes(x = Age) +
-* aes(y = Median)
-```
-]
- 
-.panel2-the_chunk-auto[
-&lt;img src="ex3_embed_files/figure-html/the_chunk_auto_06_output-1.png" width="576" /&gt;
-]
-
----
-count: false
- 
-
-.panel1-the_chunk-auto[
-
-```r
-employed_under_150K %&gt;%
-  group_by(Age,
-           Sex) %&gt;%
-  summarise(Median = median(Earnings)) %&gt;%
-  ggplot() +
-  aes(x = Age) +
-  aes(y = Median) +
-* geom_line()
-```
-]
- 
-.panel2-the_chunk-auto[
-&lt;img src="ex3_embed_files/figure-html/the_chunk_auto_07_output-1.png" width="576" /&gt;
-]
-
----
-count: false
- 
-
-.panel1-the_chunk-auto[
-
-```r
-employed_under_150K %&gt;%
-  group_by(Age,
-           Sex) %&gt;%
-  summarise(Median = median(Earnings)) %&gt;%
-  ggplot() +
-  aes(x = Age) +
-  aes(y = Median) +
-  geom_line() +
-* aes(color = Sex)
-```
-]
- 
-.panel2-the_chunk-auto[
-&lt;img src="ex3_embed_files/figure-html/the_chunk_auto_08_output-1.png" width="576" /&gt;
-]
-
----
-count: false
- 
-
-.panel1-the_chunk-auto[
-
-```r
-employed_under_150K %&gt;%
-  group_by(Age,
-           Sex) %&gt;%
-  summarise(Median = median(Earnings)) %&gt;%
-  ggplot() +
-  aes(x = Age) +
-  aes(y = Median) +
-  geom_line() +
-  aes(color = Sex) +
-* labs(x="Age (Years)")
-```
-]
- 
-.panel2-the_chunk-auto[
-&lt;img src="ex3_embed_files/figure-html/the_chunk_auto_09_output-1.png" width="576" /&gt;
-]
-
----
-count: false
- 
-
-.panel1-the_chunk-auto[
-
-```r
-employed_under_150K %&gt;%
-  group_by(Age,
-           Sex) %&gt;%
-  summarise(Median = median(Earnings)) %&gt;%
-  ggplot() +
-  aes(x = Age) +
-  aes(y = Median) +
-  geom_line() +
-  aes(color = Sex) +
-  labs(x="Age (Years)") +
-* labs(y="Earnings (USD)")
-```
-]
- 
-.panel2-the_chunk-auto[
-&lt;img src="ex3_embed_files/figure-html/the_chunk_auto_10_output-1.png" width="576" /&gt;
-]
-
----
-count: false
- 
-
-.panel1-the_chunk-auto[
-
-```r
-employed_under_150K %&gt;%
-  group_by(Age,
-           Sex) %&gt;%
-  summarise(Median = median(Earnings)) %&gt;%
-  ggplot() +
-  aes(x = Age) +
-  aes(y = Median) +
-  geom_line() +
-  aes(color = Sex) +
-  labs(x="Age (Years)") +
-  labs(y="Earnings (USD)") +
-* labs(color = "Sex of respondent")
-```
-]
- 
-.panel2-the_chunk-auto[
-&lt;img src="ex3_embed_files/figure-html/the_chunk_auto_11_output-1.png" width="576" /&gt;
-]
-
----
-count: false
- 
-
-.panel1-the_chunk-auto[
-
-```r
-employed_under_150K %&gt;%
-  group_by(Age,
-           Sex) %&gt;%
-  summarise(Median = median(Earnings)) %&gt;%
-  ggplot() +
-  aes(x = Age) +
-  aes(y = Median) +
-  geom_line() +
-  aes(color = Sex) +
-  labs(x="Age (Years)") +
-  labs(y="Earnings (USD)") +
-  labs(color = "Sex of respondent") +
-* labs(title = "Age vs. Median Earnings by Sex")
-```
-]
- 
-.panel2-the_chunk-auto[
-&lt;img src="ex3_embed_files/figure-html/the_chunk_auto_12_output-1.png" width="576" /&gt;
-]
-
----
-count: false
- 
-
-.panel1-the_chunk-auto[
-
-```r
-employed_under_150K %&gt;%
-  group_by(Age,
-           Sex) %&gt;%
-  summarise(Median = median(Earnings)) %&gt;%
-  ggplot() +
-  aes(x = Age) +
-  aes(y = Median) +
-  geom_line() +
-  aes(color = Sex) +
-  labs(x="Age (Years)") +
-  labs(y="Earnings (USD)") +
-  labs(color = "Sex of respondent") +
-  labs(title = "Age vs. Median Earnings by Sex") +
-* scale_x_continuous(limits=c(0,100),
-*                    breaks=c(seq(from = 0,
-*                                 to = 100,
-*                                 by = 10)))
-```
-]
- 
-.panel2-the_chunk-auto[
-&lt;img src="ex3_embed_files/figure-html/the_chunk_auto_13_output-1.png" width="576" /&gt;
-]
-
----
-count: false
- 
-
-.panel1-the_chunk-auto[
+.panel1-the_chunk-rotate[
 
 ```r
 employed_under_150K %&gt;%
@@ -394,16 +56,248 @@ employed_under_150K %&gt;%
                      breaks=c(seq(from = 0,
                                   to = 100,
                                   by = 10))) +
-* scale_y_log10()
+  scale_y_log10() +
+* theme_bw()
 ```
 ]
  
-.panel2-the_chunk-auto[
-&lt;img src="ex3_embed_files/figure-html/the_chunk_auto_14_output-1.png" width="576" /&gt;
+.panel2-the_chunk-rotate[
+&lt;img src="ex3.1_embed_files/figure-html/the_chunk_rotate_01_output-1.png" width="576" /&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-the_chunk-rotate[
+
+```r
+employed_under_150K %&gt;%
+  group_by(Age,
+           Sex) %&gt;%
+  summarise(Median = median(Earnings)) %&gt;%
+  ggplot() +
+  aes(x = Age) +
+  aes(y = Median) +
+  geom_line() +
+  aes(color = Sex) +
+  labs(x="Age (Years)") +
+  labs(y="Earnings (USD)") +
+  labs(color = "Sex of respondent") +
+  labs(title = "Age vs. Median Earnings by Sex") +
+  scale_x_continuous(limits=c(0,100),
+                     breaks=c(seq(from = 0,
+                                  to = 100,
+                                  by = 10))) +
+  scale_y_log10() +
+* theme_light()
+```
+]
+ 
+.panel2-the_chunk-rotate[
+&lt;img src="ex3.1_embed_files/figure-html/the_chunk_rotate_02_output-1.png" width="576" /&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-the_chunk-rotate[
+
+```r
+employed_under_150K %&gt;%
+  group_by(Age,
+           Sex) %&gt;%
+  summarise(Median = median(Earnings)) %&gt;%
+  ggplot() +
+  aes(x = Age) +
+  aes(y = Median) +
+  geom_line() +
+  aes(color = Sex) +
+  labs(x="Age (Years)") +
+  labs(y="Earnings (USD)") +
+  labs(color = "Sex of respondent") +
+  labs(title = "Age vs. Median Earnings by Sex") +
+  scale_x_continuous(limits=c(0,100),
+                     breaks=c(seq(from = 0,
+                                  to = 100,
+                                  by = 10))) +
+  scale_y_log10() +
+* theme_gray()
+```
+]
+ 
+.panel2-the_chunk-rotate[
+&lt;img src="ex3.1_embed_files/figure-html/the_chunk_rotate_03_output-1.png" width="576" /&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-the_chunk-rotate[
+
+```r
+employed_under_150K %&gt;%
+  group_by(Age,
+           Sex) %&gt;%
+  summarise(Median = median(Earnings)) %&gt;%
+  ggplot() +
+  aes(x = Age) +
+  aes(y = Median) +
+  geom_line() +
+  aes(color = Sex) +
+  labs(x="Age (Years)") +
+  labs(y="Earnings (USD)") +
+  labs(color = "Sex of respondent") +
+  labs(title = "Age vs. Median Earnings by Sex") +
+  scale_x_continuous(limits=c(0,100),
+                     breaks=c(seq(from = 0,
+                                  to = 100,
+                                  by = 10))) +
+  scale_y_log10() +
+* theme_void()
+```
+]
+ 
+.panel2-the_chunk-rotate[
+&lt;img src="ex3.1_embed_files/figure-html/the_chunk_rotate_04_output-1.png" width="576" /&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-the_chunk-rotate[
+
+```r
+employed_under_150K %&gt;%
+  group_by(Age,
+           Sex) %&gt;%
+  summarise(Median = median(Earnings)) %&gt;%
+  ggplot() +
+  aes(x = Age) +
+  aes(y = Median) +
+  geom_line() +
+  aes(color = Sex) +
+  labs(x="Age (Years)") +
+  labs(y="Earnings (USD)") +
+  labs(color = "Sex of respondent") +
+  labs(title = "Age vs. Median Earnings by Sex") +
+  scale_x_continuous(limits=c(0,100),
+                     breaks=c(seq(from = 0,
+                                  to = 100,
+                                  by = 10))) +
+  scale_y_log10() +
+* theme_linedraw()
+```
+]
+ 
+.panel2-the_chunk-rotate[
+&lt;img src="ex3.1_embed_files/figure-html/the_chunk_rotate_05_output-1.png" width="576" /&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-the_chunk-rotate[
+
+```r
+employed_under_150K %&gt;%
+  group_by(Age,
+           Sex) %&gt;%
+  summarise(Median = median(Earnings)) %&gt;%
+  ggplot() +
+  aes(x = Age) +
+  aes(y = Median) +
+  geom_line() +
+  aes(color = Sex) +
+  labs(x="Age (Years)") +
+  labs(y="Earnings (USD)") +
+  labs(color = "Sex of respondent") +
+  labs(title = "Age vs. Median Earnings by Sex") +
+  scale_x_continuous(limits=c(0,100),
+                     breaks=c(seq(from = 0,
+                                  to = 100,
+                                  by = 10))) +
+  scale_y_log10() +
+* theme_minimal()
+```
+]
+ 
+.panel2-the_chunk-rotate[
+&lt;img src="ex3.1_embed_files/figure-html/the_chunk_rotate_06_output-1.png" width="576" /&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-the_chunk-rotate[
+
+```r
+employed_under_150K %&gt;%
+  group_by(Age,
+           Sex) %&gt;%
+  summarise(Median = median(Earnings)) %&gt;%
+  ggplot() +
+  aes(x = Age) +
+  aes(y = Median) +
+  geom_line() +
+  aes(color = Sex) +
+  labs(x="Age (Years)") +
+  labs(y="Earnings (USD)") +
+  labs(color = "Sex of respondent") +
+  labs(title = "Age vs. Median Earnings by Sex") +
+  scale_x_continuous(limits=c(0,100),
+                     breaks=c(seq(from = 0,
+                                  to = 100,
+                                  by = 10))) +
+  scale_y_log10() +
+* theme_classic()
+```
+]
+ 
+.panel2-the_chunk-rotate[
+&lt;img src="ex3.1_embed_files/figure-html/the_chunk_rotate_07_output-1.png" width="576" /&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-the_chunk-rotate[
+
+```r
+employed_under_150K %&gt;%
+  group_by(Age,
+           Sex) %&gt;%
+  summarise(Median = median(Earnings)) %&gt;%
+  ggplot() +
+  aes(x = Age) +
+  aes(y = Median) +
+  geom_line() +
+  aes(color = Sex) +
+  labs(x="Age (Years)") +
+  labs(y="Earnings (USD)") +
+  labs(color = "Sex of respondent") +
+  labs(title = "Age vs. Median Earnings by Sex") +
+  scale_x_continuous(limits=c(0,100),
+                     breaks=c(seq(from = 0,
+                                  to = 100,
+                                  by = 10))) +
+  scale_y_log10() +
+* theme_dark()
+```
+]
+ 
+.panel2-the_chunk-rotate[
+&lt;img src="ex3.1_embed_files/figure-html/the_chunk_rotate_08_output-1.png" width="576" /&gt;
 ]
 
 &lt;style&gt;
-.panel1-the_chunk-auto {
+.panel1-the_chunk-rotate {
   color: black;
   width: 49%;
   hight: 32%;
@@ -411,7 +305,7 @@ employed_under_150K %&gt;%
   padding-left: 1%;
   font-size: 80%
 }
-.panel2-the_chunk-auto {
+.panel2-the_chunk-rotate {
   color: black;
   width: 49%;
   hight: 32%;
@@ -419,7 +313,7 @@ employed_under_150K %&gt;%
   padding-left: 1%;
   font-size: 80%
 }
-.panel3-the_chunk-auto {
+.panel3-the_chunk-rotate {
   color: black;
   width: NA%;
   hight: 33%;

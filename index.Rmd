@@ -26,7 +26,7 @@ library(gapminder)
 
 ## 1. Using ***Tidyverse*** to Explore the Data
 
-### Introduced in this example:
+### In this example:
 
 #### `read_csv()` read in *comma separated values* file 
 #### `select()` choose columns
@@ -35,7 +35,7 @@ library(gapminder)
 #### `summarise()` summarize data (sometimes used with `group_by()`)
 ####    
 
-#### First, we use the *read_csv()* command to bring our data into RStudio, then look step-by-step look at what the *filter()*, *mutate()*, and *select()* commands can do in a pipeline:
+#### First, we use the *read_csv()* command to bring our data into RStudio, then we look at what the *filter()*, *mutate()*, and *select()* commands can do in a pipeline:
 
 ```{r ex1.1, include=FALSE}
 read_csv("wage_data.csv") ->
@@ -55,7 +55,7 @@ wage_data %>%
 employed_under_150K
 ```
 
-View code-movie [in a new tab](embedded_flipbooks/ex1.1_embed.html){target="_blank"}
+View code-movie [in a new tab](embedded_flipbooks/ex1.1_embed.html){target="_blank"} or below:
 
 ```{r, echo=FALSE}
 embed_flipbook(chunk_name = "ex1.1", 
@@ -92,7 +92,7 @@ mean_earnings_by_sex
 mean_earnings_by_sex
 ```
 
-View code-movie [in a new tab](embedded_flipbooks/summarize_embed.html){target="_blank"}
+View code-movie [in a new tab](embedded_flipbooks/summarize_embed.html){target="_blank"} or below:
 
 ```{r, echo=FALSE}
 embed_flipbook(chunk_name = "summarize", 
@@ -112,7 +112,7 @@ embed_flipbook(chunk_name = "summarize",
 ## 2. Using ***ggplot2*** to Explore the Data
 ***
 
-### Introduced in this example:
+### In this example:
 
 #### `ggplot()`, `aes()`, `labs()`, `group_by()`, `facet_wrap()`, `geom_histogram()`, `geom_point()`, `geom_smooth()`, `geom_line()`, `geom_boxplot()`
 ####      {.tabset .tabset-fade .tabset-pills}
@@ -130,7 +130,7 @@ employed_under_150K %>%
   facet_wrap(facets = vars(Sex))
 ```
 
-View code-movie [in a new tab](embedded_flipbooks/ex2.1_embed.html){target="_blank"}
+View code-movie [in a new tab](embedded_flipbooks/ex2.1_embed.html){target="_blank"} or below:
 
 ```{r, echo = F, fig.height=3.5}
 embed_flipbook(chunk_name = "ex2.1", 
@@ -171,7 +171,7 @@ embed_flipbook(chunk_name = "ex2.2",
                        use_embed_xaringan = T)
 ```  
 
-View code-movie [in a new tab](embedded_flipbooks/ex2.2_embed.html){target="_blank"}
+View code-movie [in a new tab](embedded_flipbooks/ex2.2_embed.html){target="_blank"} or below:
 
 ##### Ex. 2.3: Line Plot
 
@@ -200,7 +200,7 @@ employed_under_150K %>%
   labs(title = "Age vs. Median Earnings by Sex")
 ```
 
-View code-movie [in a new tab](embedded_flipbooks/ex2.3_embed.html){target="_blank"}
+View code-movie [in a new tab](embedded_flipbooks/ex2.3_embed.html){target="_blank"} or below:
 
 ```{r, echo = FALSE}
 embed_flipbook(chunk_name = "ex2.3", 
@@ -218,18 +218,23 @@ embed_flipbook(chunk_name = "ex2.3",
 
 ## 3. Using ***ggplot2*** functions for data visualization
 
-### Introduced in this example:
+### In this example:
 
-#### `labs()`, `scale_x_continuous()`, `scale_y_continuous()`, `limits()`, `breaks()`, `theme_X()`
+#### `labs()`, `scale_\*_\*()`, `theme_X()`
 
 
-```{r ex3, include = F}
+####     {.tabset .tabset-fade .tabset-pills}
+
+##### Labels and scales
+
+```{r ex3, echo = F, fig.height=3.5}
 employed_under_150K %>% 
   group_by(Age, 
            Sex) %>% 
   summarise(Median = median(Earnings)) %>% 
-  ggplot(aes(x = Age, 
-             y=Median)) +
+  ggplot() +
+  aes(x = Age) + 
+  aes(y = Median) +
   geom_line() +
   aes(color = Sex) +
   labs(x="Age (Years)") +
@@ -240,22 +245,60 @@ employed_under_150K %>%
                      breaks=c(seq(from = 0,
                                   to = 100,
                                   by = 10))) +
-  scale_y_continuous(limits=c(0,70000), 
-                     breaks=c(10000, 30000, 50000)) +
-  theme_bw() +
-  theme_dark() +
-  theme_light() +
-  theme_gray() +
-  theme_void() +
-  theme_linedraw() +
-  theme_minimal() +
-  theme_classic()
+  scale_y_log10()
 ```
 
-View code-movie [in a new tab](embedded_flipbooks/ex3_embed.html){target="_blank"}
+
+View code-movie [in a new tab](embedded_flipbooks/ex3_embed.html){target="_blank"} or below:
 
 ```{r, echo = FALSE}
 embed_flipbook(chunk_name = "ex3", 
+                       use_share_again = T,
+                       font_size = 90,
+                       title_page = T,
+                       title = "Ex. 3: More ggplot2 Commands",
+                       subtitle = "Thematic and Display Adjustments",
+                       widths = c(1,1),
+                       use_embed_xaringan = T)
+```     
+
+
+##### Themes
+
+```{r ex3.1, echo = F, fig.height=3.5}
+employed_under_150K %>% 
+  group_by(Age, 
+           Sex) %>% 
+  summarise(Median = median(Earnings)) %>% 
+  ggplot() +
+  aes(x = Age) + 
+  aes(y = Median) +
+  geom_line() +
+  aes(color = Sex) +
+  labs(x="Age (Years)") +
+  labs(y="Earnings (USD)") +
+  labs(color = "Sex of respondent") +
+  labs(title = "Age vs. Median Earnings by Sex") +
+  scale_x_continuous(limits=c(0,100), 
+                     breaks=c(seq(from = 0,
+                                  to = 100,
+                                  by = 10))) +
+  scale_y_log10() + 
+  theme_bw() + #ROTATE
+  theme_light() + #ROTATE
+  theme_gray() + #ROTATE
+  theme_void() + #ROTATE
+  theme_linedraw() + #ROTATE
+  theme_minimal() + #ROTATE
+  theme_classic() + #ROTATE
+  theme_dark() #ROTATE
+```
+
+View code-movie [in a new tab](embedded_flipbooks/ex3.1_embed.html){target="_blank"} or below:
+
+```{r, echo = FALSE}
+embed_flipbook(chunk_name = "ex3.1", 
+               break_type = "rotate",
                        use_share_again = T,
                        font_size = 90,
                        title_page = T,
@@ -304,7 +347,7 @@ employed_under_150K %>%
   scale_x_continuous(labels = scales::comma)
 ```
 
-View code-movie [in a new tab](embedded_flipbooks/ex4.1_embed.html){target="_blank"}
+View code-movie [in a new tab](embedded_flipbooks/ex4.1_embed.html){target="_blank"} or below:
 
 ```{r, echo = F}
 embed_flipbook(chunk_name = "ex4.1", 
@@ -332,7 +375,7 @@ employed_under_150K %>%
   labs(title = "Bar Plot of Total Earnings by Sex")
 ```
 
-View code-movie [in a new tab](embedded_flipbooks/ex4,2_embed.html){target="_blank"}
+View code-movie [in a new tab](embedded_flipbooks/ex4,2_embed.html){target="_blank"} or below:
 
 ```{r, echo = F}
 embed_flipbook(chunk_name = "ex4.2", 
@@ -365,7 +408,7 @@ gapminder %>%
   theme(legend.position = "none")
 ```
 
-View code-movie [in a new tab](embedded_flipbooks/ex4.3_embed.html){target="_blank"}
+View code-movie [in a new tab](embedded_flipbooks/ex4.3_embed.html){target="_blank"} or below:
 
 ```{r, echo=FALSE}
 embed_flipbook(chunk_name = "ex4.3", 

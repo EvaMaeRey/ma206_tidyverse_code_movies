@@ -15,4 +15,12 @@ employed_under_150K %>%
                      breaks=c(seq(from = 0,
                                   to = 100,
                                   by = 10))) +
-  scale_y_log10()
+  scale_y_log10() + 
+  theme_bw() + #ROTATE
+  theme_light() + #ROTATE
+  theme_gray() + #ROTATE
+  theme_void() + #ROTATE
+  theme_linedraw() + #ROTATE
+  theme_minimal() + #ROTATE
+  theme_classic() + #ROTATE
+  theme_dark() #ROTATE
